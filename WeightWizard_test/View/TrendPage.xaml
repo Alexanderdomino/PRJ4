@@ -3,7 +3,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WeightWizard_test.View.TrendPage"
+             xmlns:local="clr-namespace:WeightWizard_test.Model"
              Background="Blue">
+    
+    
+    <ContentPage.Resources>
+        <local:GraphicsDrawable x:Key="drawable"/>
+    </ContentPage.Resources>
     
     <ScrollView>
         <VerticalStackLayout
@@ -22,6 +28,11 @@
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
+            
+            <GraphicsView Drawable="{StaticResource drawable}"
+                HeightRequest="200"
+                WidthRequest="200"
+                HorizontalOptions="Center"/>
 
         </VerticalStackLayout>
     </ScrollView>
