@@ -69,8 +69,4 @@
       </Compile>
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Include=".github\workflows\my-workflow.yml" />
-    </ItemGroup>
-
 </Project>
