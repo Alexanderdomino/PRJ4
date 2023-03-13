@@ -22,7 +22,7 @@ namespace WeightWizard_test.Model
             {
                 path.LineTo(x, y);
                 x += 8;
-                y -= rnd.Next(0, 6);
+                y -= rnd.Next(0, 16);
                 if (y < 0)
                 {
                     y = 30;
