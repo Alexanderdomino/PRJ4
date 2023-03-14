@@ -53,10 +53,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ViewModel" />
-    </ItemGroup>
-
-    <ItemGroup>
       <MauiXaml Update="View\MainPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
