@@ -33,4 +33,14 @@ namespace WeightWizard_test.Model
             canvas.DrawPath(path);
         }
     }
+
+    public class CircleDrawing : IDrawable
+    {
+        public void Draw(ICanvas canvas, RectF dirtyRect)
+        {
+            canvas.StrokeColor = Colors.White;
+            canvas.StrokeSize = 3;
+            canvas.DrawCircle(20, 20, 10);
+        }
+    }
 }
