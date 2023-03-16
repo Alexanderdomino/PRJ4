@@ -28,11 +28,12 @@
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
-            
+
             <GraphicsView Drawable="{StaticResource drawable}"
                 HeightRequest="200"
-                WidthRequest="200"
+                WidthRequest="250"
                 HorizontalOptions="Center"/>
+
 
         </VerticalStackLayout>
     </ScrollView>
