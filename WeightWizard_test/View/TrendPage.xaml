@@ -12,6 +12,12 @@
     </ContentPage.Resources>
     
     <ScrollView>
+        <ScrollView.Resources>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+            </Style>
+        </ScrollView.Resources>
+        
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"

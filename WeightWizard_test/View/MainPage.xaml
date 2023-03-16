@@ -1,10 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:Class="WeightWizard_test.MainPage"
              Background="Blue">
 
     <ScrollView>
+        
+        <ScrollView.Resources>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+            </Style>
+        </ScrollView.Resources>
+        
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
@@ -16,17 +27,9 @@
                 FontSize="25"
                 HorizontalOptions="Center" />
             
-            <Label
-                Text="Logger"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-            
-            <Label
-                Text="Date"
-                SemanticProperties.HeadingLevel="Level3"
-                FontSize="16"
-                HorizontalOptions="Center" />
+            <DatePicker
+                HorizontalOptions="Center"
+                FontSize="20"/>
  
             <Label
                 Text="Weight"
