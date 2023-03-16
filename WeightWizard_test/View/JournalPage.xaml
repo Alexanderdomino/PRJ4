@@ -11,7 +11,7 @@
         <model:CircleDrawing x:Key="CircleDrawable" />
     </ContentPage.Resources>
     
-    <ScrollView>
+    <ScrollView >
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
@@ -41,7 +41,8 @@
                 <Label FontSize="16" Text="Søn"/>
             </HorizontalStackLayout>
             
-            <CollectionView ItemsSource="{Binding Dates}">
+            <CollectionView ItemsSource="{Binding Dates}"
+                            HeightRequest="300">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Span="7" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
