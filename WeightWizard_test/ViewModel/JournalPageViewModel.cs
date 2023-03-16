@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices.JavaScript;
 using System.Windows.Input;
 using WeightWizard_test.Model;
-using XCalendar.Core.Models;
 
 namespace WeightWizard_test.ViewModel;
 
