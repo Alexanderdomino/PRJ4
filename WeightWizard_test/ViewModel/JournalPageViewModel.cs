@@ -1,13 +1,18 @@
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices.JavaScript;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WeightWizard_test.Model;
 using WeightWizard_test.Model.Interfaces;
 
 namespace WeightWizard_test.ViewModel;
 
-public partial class JournalPageViewModel
+public partial class JournalPageViewModel : ObservableObject
 {
+
+    [ObservableProperty] private DateTime selectedDate = DateTime.Now;
+    
+    
+    
     public ObservableCollection<ICalenderItems> Dates { get; set; } = new();
 
     public JournalPageViewModel()
@@ -17,11 +22,11 @@ public partial class JournalPageViewModel
 
     private void BindDates(DateTime selectedDate)
     {
-        int daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
+        var daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
         var firstDayOfMonth = new DateTime(selectedDate.Year, selectedDate.Month, 1);
-        int daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
+        var daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
 
-        for (int i = 1; i < 8; i++)
+        for (var i = 1; i < 8; i++)
         {
             Dates.Add(new DayNameModel()
             {
@@ -33,13 +38,13 @@ public partial class JournalPageViewModel
         
         if (firstDayOfMonth.DayOfWeek != DayOfWeek.Monday)
         {
-            for (int spoofDay = 0; spoofDay < daysBeforeMonth; spoofDay++)
+            for (var spoofDay = 0; spoofDay < daysBeforeMonth; spoofDay++)
             {
                 Dates.Add(new EmptyDayModel());
             }
         }
         
-        for (int day = 1; day < daysCount; day++)
+        for (var day = 1; day < daysCount; day++)
         {
             Dates.Add(new CalenderModel
             {
@@ -51,5 +56,12 @@ public partial class JournalPageViewModel
             }
         }
     }
+
+    [RelayCommand]
+    private void CurrentDate(CalenderModel currentDate)
+    {
+        SelectedDate = currentDate.Date;
+    }
+    
 }
 
