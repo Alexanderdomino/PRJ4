@@ -19,10 +19,10 @@ public partial class JournalPageViewModel
     {
         int daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
         var firstDayOfMonth = new DateTime(selectedDate.Year, selectedDate.Month, 1);
-
+        int daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
+        
         if (firstDayOfMonth.DayOfWeek != DayOfWeek.Monday)
         {
-            int daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
             for (int spoofDay = 0; spoofDay < daysBeforeMonth; spoofDay++)
             {
                 Dates.Add(new EmptyDayModel());
@@ -35,6 +35,10 @@ public partial class JournalPageViewModel
             {
                 Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
             });
+            if ((day+daysBeforeMonth)%7 == 0)
+            {
+                Dates.Add(new EmptyDayModel());
+            }
         }
     }
 }
