@@ -11,14 +11,14 @@ public class ReportDrawable :IDrawable
         canvas.FillColor = Colors.Gray;
 
         PathF path = new();
-        path.MoveTo(10, 5);
-        path.LineTo(25, 5);
-        path.LineTo(27, 7);
-        path.LineTo(27, 30);
-        path.LineTo(25, 32);
-        path.LineTo(10, 32);
-        path.LineTo(8, 30);
-        path.LineTo(8, 7);
+        path.MoveTo(10, 25);
+        path.LineTo(25, 25);
+        path.LineTo(27, 27);
+        path.LineTo(27, 52);
+        path.LineTo(25, 54);
+        path.LineTo(10, 54);
+        path.LineTo(8, 52);
+        path.LineTo(8, 27);
         path.Close();
 
         canvas.DrawPath(path);

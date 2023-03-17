@@ -20,6 +20,16 @@ public partial class JournalPageViewModel
         int daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
         var firstDayOfMonth = new DateTime(selectedDate.Year, selectedDate.Month, 1);
         int daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
+
+        for (int i = 1; i < 8; i++)
+        {
+            Dates.Add(new DayNameModel()
+            {
+                Date = new DateTime(2021, 2, i)
+            });
+
+        }
+        Dates.Add(new EmptyDayModel());
         
         if (firstDayOfMonth.DayOfWeek != DayOfWeek.Monday)
         {

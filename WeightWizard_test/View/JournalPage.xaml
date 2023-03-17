@@ -40,22 +40,9 @@
                 FontSize="20"
             />
             
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Spacing="20">
-                <Label FontSize="16" Text="Man"/>
-                <Label FontSize="16" Text="Tir"/>
-                <Label FontSize="16" Text="Ons"/>
-                <Label FontSize="16" Text="Tor"/>
-                <Label FontSize="16" Text="Fre"/>
-                <Label FontSize="16" Text="Lør"/>
-                <Label FontSize="16" Text="Søn"/>
-                <Label FontSize="16" Text="Rep"/>
-            </HorizontalStackLayout>
-            
             <CollectionView ItemsSource="{Binding Dates}"
                             ItemTemplate="{x:StaticResource CalenderTemplate}"
-                            HeightRequest="300">
+                            HeightRequest="400">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Span="8" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>

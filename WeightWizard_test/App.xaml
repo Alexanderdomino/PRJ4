@@ -64,9 +64,18 @@
                     <GraphicsView
                         x:Name="Canvas"
                         HorizontalOptions="Center"
-                        HeightRequest="40"
+                        HeightRequest="60"
                         WidthRequest="40"
                         Drawable="{StaticResource ReportDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="DayNameTemplate" x:DataType="model:DayNameModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Date,StringFormat='{0:ddd}'}"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
             </DataTemplate>
             
@@ -74,7 +83,8 @@
                                                     LoggedDayTemplate="{x:StaticResource LoggedDayTemplate}"
                                                     NotLoggedDayTemplate="{x:StaticResource NotLoggedDayTemplate}"
                                                     EmptyDayTemplate="{x:StaticResource EmptyDayTemplate}"
-                                                    LockedReportTemplate="{x:StaticResource LockedReportTemplate}"/>
+                                                    LockedReportTemplate="{x:StaticResource LockedReportTemplate}"
+                                                    DayNameTemplate="{x:StaticResource DayNameTemplate}"/>
             
         </ResourceDictionary>
         
