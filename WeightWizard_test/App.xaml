@@ -15,6 +15,7 @@
             <Color x:Key="LabelColor">WhiteSmoke</Color>
             <drawables:OpenCircleDrawing x:Key="OpenCircleDrawable"/>
             <drawables:FilledCircleDrawing x:Key="FilledCircleDrawable"/>
+            <drawables:ReportDrawable x:Key="ReportDrawable"/>
             
             <!-- DataTemplates for different CalenderItems -->
             
@@ -58,10 +59,32 @@
                 </VerticalStackLayout>
             </DataTemplate>
             
+            <DataTemplate x:Key="LockedReportTemplate" x:DataType="model:ReportModel">
+                <VerticalStackLayout>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="60"
+                        WidthRequest="40"
+                        Drawable="{StaticResource ReportDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="DayNameTemplate" x:DataType="model:DayNameModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Date,StringFormat='{0:ddd}'}"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
             <selectors:CalenderDataTemplateSelector x:Key="CalenderTemplate"
                                                     LoggedDayTemplate="{x:StaticResource LoggedDayTemplate}"
                                                     NotLoggedDayTemplate="{x:StaticResource NotLoggedDayTemplate}"
-                                                    EmptyDayTemplate="{x:StaticResource EmptyDayTemplate}"/>
+                                                    EmptyDayTemplate="{x:StaticResource EmptyDayTemplate}"
+                                                    LockedReportTemplate="{x:StaticResource LockedReportTemplate}"
+                                                    DayNameTemplate="{x:StaticResource DayNameTemplate}"/>
             
         </ResourceDictionary>
         

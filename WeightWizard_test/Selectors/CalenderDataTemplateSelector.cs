@@ -13,6 +13,8 @@ public class CalenderDataTemplateSelector : DataTemplateSelector
     public DataTemplate LockedReportTemplate { get; set; }
     public DataTemplate UnlockedReportTemplate { get; set; }
     
+    public DataTemplate DayNameTemplate { get; set; }
+    
     protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
     {
         var obj = (ICalenderItems)item;
@@ -21,11 +23,13 @@ public class CalenderDataTemplateSelector : DataTemplateSelector
         {
             case CalenderModel:
                 return obj.IsLogged ? LoggedDayTemplate : NotLoggedDayTemplate;
-            // case ReportModel:
+            case ReportModel:
+                return LockedReportTemplate;
             //     return obj.Unlocked ? UnlockedReportTemplate : LockedReportTemplate;
             case EmptyDayModel:
                 return EmptyDayTemplate;
-            
+            case DayNameModel:
+                return DayNameTemplate;
             default:
                 return EmptyDayTemplate;
         }

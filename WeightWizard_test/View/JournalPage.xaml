@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:WeightWizard_test.Model"
-             xmlns:drawables="clr-namespace:WeightWizard_test.Model.Drawables"
              x:Class="WeightWizard_test.View.JournalPage"
              Background="Blue">
     <ContentPage.Resources>
@@ -40,24 +38,18 @@
                 FontSize="20"
             />
             
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Spacing="22">
-                <Label FontSize="16" Text="Man"/>
-                <Label FontSize="16" Text="Tir"/>
-                <Label FontSize="16" Text="Ons"/>
-                <Label FontSize="16" Text="Tor"/>
-                <Label FontSize="16" Text="Fre"/>
-                <Label FontSize="16" Text="Lør"/>
-                <Label FontSize="16" Text="Søn"/>
-            </HorizontalStackLayout>
+            <Label Text="{Binding SelectedDate,StringFormat='{0: dd MMM yyyy}'}"></Label>
             
             <CollectionView ItemsSource="{Binding Dates}"
                             ItemTemplate="{x:StaticResource CalenderTemplate}"
-                            HeightRequest="300">
+                            HeightRequest="400">
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout Span="7" Orientation="Vertical"/>
+                    <GridItemsLayout Span="8" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
+                    
+                <!-- <CollectionView.GestureRecognizers> -->
+                <!--     <TapGestureRecognizer Command="{Binding CurrentDateCommand}" CommandParameter="Binding ."/> -->
+                <!-- </CollectionView.GestureRecognizers> -->
             </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
