@@ -9,6 +9,9 @@
         <Style TargetType="Label">
             <Setter Property="TextColor" Value="WhiteSmoke"/>
         </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="TextColor" Value="WhiteSmoke"/>
+        </Style>
     </ContentPage.Resources>
     
     <ScrollView >
@@ -28,6 +31,14 @@
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
+            
+            <DatePicker
+                WidthRequest="120"
+                FontAutoScalingEnabled="True"
+                Format="MMMM"
+                HorizontalOptions="Center"
+                FontSize="20"
+            />
             
             <HorizontalStackLayout
                 HorizontalOptions="Center"
