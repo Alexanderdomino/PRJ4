@@ -15,6 +15,7 @@
             <Color x:Key="LabelColor">WhiteSmoke</Color>
             <drawables:OpenCircleDrawing x:Key="OpenCircleDrawable"/>
             <drawables:FilledCircleDrawing x:Key="FilledCircleDrawable"/>
+            <drawables:ReportDrawable x:Key="ReportDrawable"/>
             
             <!-- DataTemplates for different CalenderItems -->
             
@@ -58,10 +59,22 @@
                 </VerticalStackLayout>
             </DataTemplate>
             
+            <DataTemplate x:Key="LockedReportTemplate" x:DataType="model:ReportModel">
+                <VerticalStackLayout>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Drawable="{StaticResource ReportDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
             <selectors:CalenderDataTemplateSelector x:Key="CalenderTemplate"
                                                     LoggedDayTemplate="{x:StaticResource LoggedDayTemplate}"
                                                     NotLoggedDayTemplate="{x:StaticResource NotLoggedDayTemplate}"
-                                                    EmptyDayTemplate="{x:StaticResource EmptyDayTemplate}"/>
+                                                    EmptyDayTemplate="{x:StaticResource EmptyDayTemplate}"
+                                                    LockedReportTemplate="{x:StaticResource LockedReportTemplate}"/>
             
         </ResourceDictionary>
         

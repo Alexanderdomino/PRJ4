@@ -37,7 +37,7 @@ public partial class JournalPageViewModel
             });
             if ((day+daysBeforeMonth)%7 == 0)
             {
-                Dates.Add(new EmptyDayModel());
+                Dates.Add(new ReportModel());
             }
         }
     }
