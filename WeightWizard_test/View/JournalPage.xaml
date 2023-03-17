@@ -9,7 +9,6 @@
         <Style TargetType="Label">
             <Setter Property="TextColor" Value="WhiteSmoke"/>
         </Style>
-        <drawables:OpenCircleDrawing x:Key="OpenCircleDrawable" />
     </ContentPage.Resources>
     
     <ScrollView >
@@ -43,28 +42,12 @@
             </HorizontalStackLayout>
             
             <CollectionView ItemsSource="{Binding Dates}"
+                            ItemTemplate="{x:StaticResource CalenderTemplate}"
                             HeightRequest="300">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Span="7" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:CalenderModel">
-                        <VerticalStackLayout>
-                                <Label 
-                                    Text="{Binding Date,StringFormat='{0:dd}'}"
-                                    FontSize="14"
-                                    HorizontalTextAlignment="Center"/>
-                                <GraphicsView 
-                                    x:Name="Canvas"                 
-                                    HorizontalOptions="Center"
-                                    HeightRequest="40"
-                                    WidthRequest="40"
-                                    Drawable="{StaticResource OpenCircleDrawable}"/>
-                            </VerticalStackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
             </CollectionView>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

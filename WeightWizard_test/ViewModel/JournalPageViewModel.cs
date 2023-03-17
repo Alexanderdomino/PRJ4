@@ -36,6 +36,7 @@ public partial class JournalPageViewModel
         {
             Dates.Add(new CalenderModel
             {
+                IsLogged = true,
                 Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
             });
         }

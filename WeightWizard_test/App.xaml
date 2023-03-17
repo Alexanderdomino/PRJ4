@@ -2,6 +2,9 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:WeightWizard_test"
+             xmlns:model="clr-namespace:WeightWizard_test.Model"
+             xmlns:drawables="clr-namespace:WeightWizard_test.Model.Drawables"
+             xmlns:selectors="clr-namespace:WeightWizard_test.Selectors"
              x:Class="WeightWizard_test.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -11,7 +14,56 @@
             </ResourceDictionary.MergedDictionaries>
             
             <Color x:Key="LabelColor">WhiteSmoke</Color>
+            <drawables:OpenCircleDrawing x:Key="OpenCircleDrawable"/>
+            <drawables:FilledCircleDrawing x:Key="FilledCircleDrawable"/>
+            
+            <!-- DataTemplates for different CalenderItems -->
+            
+            <DataTemplate x:Key="NotLoggedDayTemplate" x:DataType="model:CalenderModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Date,StringFormat='{0:dd}'}"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Drawable="{StaticResource OpenCircleDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="LoggedDayTemplate" x:DataType="model:CalenderModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Date,StringFormat='{0:dd}'}"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Drawable="{StaticResource FilledCircleDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+    
+            <DataTemplate x:Key="EmptyDayTemplate" x:DataType="model:CalenderModel">
+                <VerticalStackLayout>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <selectors:CalenderDataTemplateSelector x:Key="CalenderTemplate"
+                                                    LoggedDayTemplate="{x:StaticResource LoggedDayTemplate}"
+                                                    NotLoggedDayTemplate="{x:StaticResource NotLoggedDayTemplate}"/>
             
         </ResourceDictionary>
+        
     </Application.Resources>
 </Application>
