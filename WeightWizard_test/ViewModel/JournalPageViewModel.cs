@@ -2,12 +2,13 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices.JavaScript;
 using System.Windows.Input;
 using WeightWizard_test.Model;
+using WeightWizard_test.Model.Interfaces;
 
 namespace WeightWizard_test.ViewModel;
 
 public partial class JournalPageViewModel
 {
-    public ObservableCollection<CalenderModel> Dates { get; set; } = new();
+    public ObservableCollection<ICalenderItems> Dates { get; set; } = new();
 
     public JournalPageViewModel()
     {

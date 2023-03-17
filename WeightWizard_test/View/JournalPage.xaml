@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:WeightWizard_test.Model"
+             xmlns:drawables="clr-namespace:WeightWizard_test.Model.Drawables"
              x:Class="WeightWizard_test.View.JournalPage"
              Background="Blue">
     <ContentPage.Resources>
         <Style TargetType="Label">
             <Setter Property="TextColor" Value="WhiteSmoke"/>
         </Style>
-        <model:CircleDrawing x:Key="CircleDrawable" />
+        <drawables:OpenCircleDrawing x:Key="OpenCircleDrawable" />
     </ContentPage.Resources>
     
     <ScrollView >
@@ -58,7 +59,7 @@
                                     HorizontalOptions="Center"
                                     HeightRequest="40"
                                     WidthRequest="40"
-                                    Drawable="{StaticResource CircleDrawable}"/>
+                                    Drawable="{StaticResource OpenCircleDrawable}"/>
                             </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

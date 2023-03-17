@@ -4,11 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WeightWizard_test.View.TrendPage"
              xmlns:local="clr-namespace:WeightWizard_test.Model"
+             xmlns:drawables="clr-namespace:WeightWizard_test.Model.Drawables"
              Background="Blue">
     
     
     <ContentPage.Resources>
-        <local:GraphicsDrawable x:Key="drawable"/>
+        <drawables:GraphicsDrawable x:Key="Drawable"/>
     </ContentPage.Resources>
     
     <ScrollView>
@@ -35,7 +36,7 @@
                 FontSize="32"
                 HorizontalOptions="Center" />
 
-            <GraphicsView Drawable="{StaticResource drawable}"
+            <GraphicsView Drawable="{StaticResource Drawable}"
                 HeightRequest="200"
                 WidthRequest="250"
                 HorizontalOptions="Center"/>

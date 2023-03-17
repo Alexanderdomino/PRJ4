@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WeightWizard_test.Model
+﻿namespace WeightWizard_test.Model.Drawables
 {
     public class GraphicsDrawable : IDrawable
     {
@@ -31,16 +25,6 @@ namespace WeightWizard_test.Model
             canvas.StrokeColor = Colors.White;
             canvas.StrokeSize = 2;
             canvas.DrawPath(path);
-        }
-    }
-
-    public class CircleDrawing : IDrawable
-    {
-        public void Draw(ICanvas canvas, RectF dirtyRect)
-        {
-            canvas.StrokeColor = Colors.White;
-            canvas.StrokeSize = 3;
-            canvas.DrawCircle(20, 20, 10);
         }
     }
 }
