@@ -25,10 +25,7 @@ public partial class JournalPageViewModel
             int daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
             for (int spoofDay = 0; spoofDay < daysBeforeMonth; spoofDay++)
             {
-                Dates.Add(new CalenderModel
-                {
-                    Date = new DateTime(selectedDate.Year, selectedDate.Month, 30)
-                });
+                Dates.Add(new EmptyDayModel());
             }
         }
         
@@ -36,7 +33,6 @@ public partial class JournalPageViewModel
         {
             Dates.Add(new CalenderModel
             {
-                IsLogged = true,
                 Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
             });
         }

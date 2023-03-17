@@ -17,28 +17,17 @@ public class CalenderDataTemplateSelector : DataTemplateSelector
     {
         var obj = (ICalenderItems)item;
 
-        return obj.IsLogged ? LoggedDayTemplate : NotLoggedDayTemplate;
-
-        //  if (obj is CalenderModel)
-        //  {
-        //      if (obj.IsLogged)
-        //      {
-        //          return LoggedDayTemplate;
-        //      }
-        //      
-        //      return NotLoggedDayTemplate;
-        //  }
-        //
-        //  if (obj is ReportModel)
-        //  {
-        //      if (obj.Unlocked)
-        //      { 
-        //          return UnlockedReportTemplate;
-        //      }
-        //
-        //      return LockedReportTemplate;
-        //  }
-        //
-        // return EmptyDayTemplate;
+        switch (obj)
+        {
+            case CalenderModel:
+                return obj.IsLogged ? LoggedDayTemplate : NotLoggedDayTemplate;
+            // case ReportModel:
+            //     return obj.Unlocked ? UnlockedReportTemplate : LockedReportTemplate;
+            case EmptyDayModel:
+                return EmptyDayTemplate;
+            
+            default:
+                return EmptyDayTemplate;
+        }
     }
 }

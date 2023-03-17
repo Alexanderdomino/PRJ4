@@ -9,6 +9,7 @@ public class EmptyDayModel : ICalenderItems
         IsLogged = false;
         Unlocked = false;
     }
+    
     public bool IsLogged { get; set; }
     public bool Unlocked { get; set; }
 }
