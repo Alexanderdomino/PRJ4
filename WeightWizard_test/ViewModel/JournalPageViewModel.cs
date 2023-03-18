@@ -9,8 +9,7 @@ namespace WeightWizard_test.ViewModel;
 public partial class JournalPageViewModel : ObservableObject
 {
 
-    [ObservableProperty] private DateTime selectedDate = DateTime.Now;
-    
+    [ObservableProperty] public DateTime selectedItem = DateTime.Now;
     
     
     public ObservableCollection<ICalenderItems> Dates { get; set; } = new();
@@ -58,9 +57,10 @@ public partial class JournalPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void CurrentDate(CalenderModel currentDate)
+    public void CurrentDate()
     {
-        SelectedDate = currentDate.Date;
+        System.Console.WriteLine("Selection changed");
+        System.Console.WriteLine(SelectedItem.Date);
     }
     
 }

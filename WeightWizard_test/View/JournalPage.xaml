@@ -38,10 +38,13 @@
                 FontSize="20"
             />
             
-            <Label Text="{Binding SelectedDate,StringFormat='{0: dd MMM yyyy}'}"></Label>
+            <Label Text="{Binding SelectedItem,StringFormat='{0: dd MMM yyyy}'}"/>
             
             <CollectionView ItemsSource="{Binding Dates}"
                             ItemTemplate="{x:StaticResource CalenderTemplate}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedItem}"
+                            SelectionChangedCommand="{Binding CurrentDateCommand}"
                             HeightRequest="400">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Span="8" Orientation="Vertical"/>
