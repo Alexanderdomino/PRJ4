@@ -25,10 +25,10 @@ env:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup .NET 6
+      - name: Setup .NET 7
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
           include-prerelease: true
 
       - uses: actions/setup-java@v2
@@ -45,7 +45,7 @@ env:
         run: dotnet restore src/MauiBeach/MauiBeach.csproj
 
       - name: Build MAUI Android
-        run: dotnet build src/MauiBeach/MauiBeach.csproj -c Release -f net6.0-android --no-restore
+        run: dotnet build src/MauiBeach/MauiBeach.csproj -c Release -f net7.0-android --no-restore
 
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v2.3.1
