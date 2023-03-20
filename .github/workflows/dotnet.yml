@@ -15,6 +15,7 @@ env:
   DOTNET_NOLOGO: true                     # Disable the .NET logo
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Disable the .NET first time experience
   DOTNET_CLI_TELEMETRY_OPTOUT: true       # Disable sending .NET CLI telemetry
+  PROJECT_PATH: "WeightWizard_test/WeightWizard_test.csproj"
 
 jobs:
   
@@ -35,13 +36,13 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Restore Dependencies
-        run: dotnet restore WeightWizard_test/WeightWizard_test/WeightWizard_test.csproj
+        run: dotnet restore ${{ env.PROJECT_PATH }}
 
       - name: Build MAUI Android
-        run: dotnet publish WeightWizard_test/WeightWizard_test/WeightWizard_test.csproj -c Release -f net7.0-android --no-restore
+        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -f net7.0-android --no-restore
 
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
           name: WeightWizard-android-ci-build
-          path: WeightWizard_test/WeightWizard_test/bin/Release/net7.0-android/*Signed.a*
+          path: WeightWizard_test/bin/Release/net7.0-android/*Signed.a*
