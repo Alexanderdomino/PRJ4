@@ -9,9 +9,9 @@ namespace WeightWizard_test.ViewModel;
 public partial class JournalPageViewModel : ObservableObject
 {
 
-    [ObservableProperty] public DateTime selectedItem = DateTime.Now;
-    
-    
+    [ObservableProperty] public DateTime selectedItem = DateTime.Today;
+
+
     public ObservableCollection<ICalenderItems> Dates { get; set; } = new();
 
     public JournalPageViewModel()
