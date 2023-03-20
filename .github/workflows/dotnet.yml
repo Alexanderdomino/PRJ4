@@ -35,7 +35,7 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Restore Dependencies
-        run: dotnet restore src/MauiBeach/MauiBeach.csproj
+        run: dotnet restore WeightWizard_test/WeightWizard_test/WeightWizard_test.csproj
 
       - name: Build MAUI Android
         run: dotnet publish WeightWizard_test/WeightWizard_test/WeightWizard_test.csproj -c Release -f net7.0-android --no-restore
