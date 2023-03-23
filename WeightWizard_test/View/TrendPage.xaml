@@ -36,23 +36,58 @@
                 FontSize="32"
                 HorizontalOptions="Center" />
 
+            <HorizontalStackLayout
+                Spacing="25"
+                Padding="30,0"
+                HorizontalOptions="Center">
+
+                <Button
+                    x:Name="CalorieBtn"
+                    Text="Show calories"
+                    SemanticProperties.Hint="shows only calories"/>
+
+                <Button
+                    x:Name="KgBtn"
+                    Text="Show weight"
+                    SemanticProperties.Hint="shows only weight"/>
+
+                <Button
+                    x:Name="allBtn"
+                    Text="Show all"
+                    SemanticProperties.Hint="shows all"/>
+
+
+
+            </HorizontalStackLayout>
+
             <GraphicsView Drawable="{StaticResource Drawable}"
                 HeightRequest="200"
                 WidthRequest="250"
                 HorizontalOptions="Center"/>
 
+
             <HorizontalStackLayout
                 Spacing="25"
                 Padding="30,0"
-                VerticalOptions="Center">
+                HorizontalOptions="Center">
 
 
                 <Button
-                x:Name="SaveBtn"
+                x:Name="3Btn"
                 Text="3 months"
                 SemanticProperties.Hint="Saves logged data from current day"/>
-                
-                
+
+                <Button
+                x:Name="1yBtn"
+                Text="1 year"
+                SemanticProperties.Hint="Saves logged data from current day"/>
+
+                <Button
+                    x:Name="allBtn"
+                    Text="All"
+                    SemanticProperties.Hint="Shows data for one year"/>
+
+
 
 
             </HorizontalStackLayout>
