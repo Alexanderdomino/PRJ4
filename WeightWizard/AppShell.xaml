@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="WeightWizard.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:WeightWizard"
+    xmlns:view="clr-namespace:WeightWizard.View"
+    Shell.FlyoutBehavior="Disabled"
+    NavBarIsVisible="False"
+    BackgroundColor="Blue">
+
+    <TabBar>
+        <ShellContent Title="Logger"
+                      Icon="log_icon.png"
+                      ContentTemplate="{DataTemplate local:MainPage}"></ShellContent>
+                
+        <ShellContent Title="Trend"
+                      Icon="trend_icon.png"
+                      ContentTemplate="{DataTemplate view:TrendPage}"></ShellContent>
+                
+        <ShellContent Title="Journal"
+                      Icon="journal_icon.png"
+                      ContentTemplate="{DataTemplate view:JournalPage}"></ShellContent>
+                
+        <ShellContent Title="Profile"
+                      Icon="profile_icon.png"
+                      ContentTemplate="{DataTemplate view:ProfilePage}"></ShellContent>
+    </TabBar>
+</Shell>
