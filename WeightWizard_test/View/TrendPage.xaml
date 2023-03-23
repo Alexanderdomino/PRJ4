@@ -41,6 +41,23 @@
                 WidthRequest="250"
                 HorizontalOptions="Center"/>
 
+            <HorizontalStackLayout
+                Spacing="25"
+                Padding="30,0"
+                VerticalOptions="Center">
+
+
+                <Button
+                x:Name="SaveBtn"
+                Text="3 months"
+                SemanticProperties.Hint="Saves logged data from current day"/>
+                
+                
+
+
+            </HorizontalStackLayout>
+
+
 
         </VerticalStackLayout>
     </ScrollView>
