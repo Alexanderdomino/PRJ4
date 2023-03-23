@@ -1,0 +1,92 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:WeightWizard.Model"
+             xmlns:drawables="clr-namespace:WeightWizard.Model.Drawables"
+             xmlns:selectors="clr-namespace:WeightWizard.Selectors"
+             x:Class="WeightWizard.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Color x:Key="LabelColor">WhiteSmoke</Color>
+            <drawables:OpenCircleDrawing x:Key="OpenCircleDrawable"/>
+            <drawables:FilledCircleDrawing x:Key="FilledCircleDrawable"/>
+            <drawables:ReportDrawable x:Key="ReportDrawable"/>
+            
+            <!-- DataTemplates for different CalenderItems -->
+            
+            <DataTemplate x:Key="NotLoggedDayTemplate" x:DataType="model:CalenderModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Date,StringFormat='{0:dd}'}"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Drawable="{StaticResource OpenCircleDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="LoggedDayTemplate" x:DataType="model:CalenderModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Date,StringFormat='{0:dd}'}"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Drawable="{StaticResource FilledCircleDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+    
+            <DataTemplate x:Key="EmptyDayTemplate" x:DataType="model:CalenderModel">
+                <VerticalStackLayout>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="40"
+                        WidthRequest="40"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="LockedReportTemplate" x:DataType="model:ReportModel">
+                <VerticalStackLayout>
+                    <GraphicsView
+                        x:Name="Canvas"
+                        HorizontalOptions="Center"
+                        HeightRequest="60"
+                        WidthRequest="40"
+                        Drawable="{StaticResource ReportDrawable}"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="DayNameTemplate" x:DataType="model:DayNameModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Date,StringFormat='{0:ddd}'}"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <selectors:CalenderDataTemplateSelector x:Key="CalenderTemplate"
+                                                    LoggedDayTemplate="{x:StaticResource LoggedDayTemplate}"
+                                                    NotLoggedDayTemplate="{x:StaticResource NotLoggedDayTemplate}"
+                                                    EmptyDayTemplate="{x:StaticResource EmptyDayTemplate}"
+                                                    LockedReportTemplate="{x:StaticResource LockedReportTemplate}"
+                                                    DayNameTemplate="{x:StaticResource DayNameTemplate}"/>
+            
+        </ResourceDictionary>
+        
+    </Application.Resources>
+</Application>
