@@ -26,23 +26,25 @@
             VerticalOptions="Center">
 
             <Label
-                Text="Weight Wizard"
-                SemanticProperties.HeadingLevel="Level2"
-                FontSize="25"
-                HorizontalOptions="Center" />
-            
-            <Label
                 Text="Profile"
+                SemanticProperties.HeadingLevel="Level2"
+                FontSize="50"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Goal (in kg)"
+                SemanticProperties.HeadingLevel="Level2"
+                FontSize="30"
+                HorizontalOptions="Center" />
+
+            <Entry
+                TextColor="Black"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
+                BackgroundColor="White"
+                WidthRequest="200"
                 HorizontalOptions="Center" />
-            
-            <GraphicsView 
-                x:Name="Canvas"                 
-                HorizontalOptions="Center"
-                HeightRequest="100"
-                WidthRequest="100"
-                Drawable="{StaticResource OpenCircleDrawable}"/>
+           
 
         </VerticalStackLayout>
     </ScrollView>
