@@ -30,14 +30,23 @@
                 FontSize="32"
                 HorizontalOptions="Center" />
             
-            <DatePicker
-                WidthRequest="120"
-                FontAutoScalingEnabled="True"
-                Format="MMMM"
-                HorizontalOptions="Center"
-                FontSize="20"
-            />
-            
+            <HorizontalStackLayout HorizontalOptions="Center">
+                
+                
+                <Label
+                    HorizontalOptions="Center"
+                    FontSize="20"
+                    Text="{Binding SelectedMonth,StringFormat='{0:MMMM}'}">
+                    <Label.GestureRecognizers>
+                        <SwipeGestureRecognizer
+                            Direction="Left" 
+                            Command="{Binding MonthSwipeLeftCommand}"/>
+                        <SwipeGestureRecognizer 
+                            Direction="Right" 
+                            Command="{Binding MonthSwipeRightCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
             <Label Text="{Binding SelectedItem.Date,StringFormat='{0: dd MMM yyyy}'}"/>
             
             <CollectionView ItemsSource="{Binding Dates}"
@@ -49,10 +58,6 @@
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Span="8" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
-                    
-                <!-- <CollectionView.GestureRecognizers> -->
-                <!--     <TapGestureRecognizer Command="{Binding CurrentDateCommand}" CommandParameter="Binding ."/> -->
-                <!-- </CollectionView.GestureRecognizers> -->
             </CollectionView>
         </VerticalStackLayout>
     </ScrollView>

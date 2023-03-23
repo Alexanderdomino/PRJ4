@@ -14,6 +14,14 @@ namespace WeightWizard.ViewModel
         // Current selected date
         [ObservableProperty] public CalenderModel selectedItem;
 
+        [ObservableProperty] public DateTime selectedMonth = DateTime.Now;
+        
+        partial void OnSelectedMonthChanged(DateTime SelectedMonth)
+        {
+            Dates.Clear();
+            BindDates(SelectedMonth);
+        }
+
         // Collection of dates for the calendar
         public ObservableCollection<ICalenderItems> Dates { get; set; } = new();
 
@@ -21,7 +29,8 @@ namespace WeightWizard.ViewModel
         public JournalPageViewModel()
         {
             // Bind dates for the current month
-            BindDates(DateTime.Now);
+            BindDates(SelectedMonth);
+            
         }
 
         // Method to bind dates to the calendar
@@ -77,10 +86,22 @@ namespace WeightWizard.ViewModel
         [RelayCommand]
         public void CurrentDate()
         {
-            // Write selected date to the console
-            System.Console.WriteLine("Selection changed");
-            System.Console.WriteLine(SelectedItem.Date);
+            // Show popup of selected item
             MopupService.Instance.PushAsync(new DatePopupPage());
+        }
+
+        [RelayCommand]
+        public void MonthSwipeLeft()
+        {
+            Console.WriteLine("Swpied Left");
+            SelectedMonth = SelectedMonth.AddMonths(1);
+        }
+        
+        [RelayCommand]
+        public void MonthSwipeRight()
+        {
+            Console.WriteLine("Swpied Right");
+            SelectedMonth = SelectedMonth.AddMonths(-1);
         }
     }
 }
