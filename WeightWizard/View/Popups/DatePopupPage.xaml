@@ -27,9 +27,11 @@
                 <RoundRectangle CornerRadius="40,40,0,0" />
             </Border.StrokeShape>
             <Label
-            Text="TestPopup"
+            Text="{Binding SelectedDate,StringFormat='{0: dd MMM yyyy}'}"
+            TextColor="Black"
             VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+            HorizontalOptions="Center"
+            WidthRequest="100"/>
         </Border>
     </ScrollView>
 </mopups:PopupPage>

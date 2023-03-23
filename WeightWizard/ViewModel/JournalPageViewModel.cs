@@ -87,7 +87,7 @@ namespace WeightWizard.ViewModel
         public void CurrentDate()
         {
             // Show popup of selected item
-            MopupService.Instance.PushAsync(new DatePopupPage());
+            MopupService.Instance.PushAsync(new DatePopupPage(SelectedItem.Date));
         }
 
         [RelayCommand]
