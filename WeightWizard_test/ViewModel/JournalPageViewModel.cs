@@ -2,8 +2,10 @@ using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Mopups.Services;
 using WeightWizard_test.Model;
 using WeightWizard_test.Model.Interfaces;
+using WeightWizard_test.View.Popups;
 
 namespace WeightWizard_test.ViewModel
 {
@@ -78,6 +80,7 @@ namespace WeightWizard_test.ViewModel
             // Write selected date to the console
             System.Console.WriteLine("Selection changed");
             System.Console.WriteLine(SelectedItem.Date);
+            MopupService.Instance.PushAsync(new DatePopupPage());
         }
     }
 }
