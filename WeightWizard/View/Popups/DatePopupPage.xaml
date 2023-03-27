@@ -5,7 +5,7 @@
              xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
              xmlns:mopupsanim="clr-namespace:Mopups.Animations;assembly=Mopups"
              x:Class="WeightWizard.View.Popups.DatePopupPage"
-             Title="DatePopupPage" BackgroundColor="#00FFFFFF">
+             Title="DatePopupPage" BackgroundColor="#00000000">
     <mopups:PopupPage.Animation>
         <mopupsanim:ScaleAnimation
             DurationIn="200"
@@ -14,15 +14,24 @@
             ScaleIn="1"
             ScaleOut="1"/>
     </mopups:PopupPage.Animation>
-    <VerticalStackLayout HeightRequest="300" VerticalOptions="End" BackgroundColor="WhiteSmoke">
-        <Border>
+    <ScrollView 
+        HeightRequest="400" 
+        HorizontalOptions="Fill" 
+        VerticalOptions="End" 
+        BackgroundColor="#00000000" >
+        <Border
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            BackgroundColor="WhiteSmoke" >
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="40,40,40,40"/>
+                <RoundRectangle CornerRadius="40,40,0,0" />
             </Border.StrokeShape>
             <Label
-            Text="TestPopup"
+            Text="{Binding SelectedDate,StringFormat='{0: dd MMM yyyy}'}"
+            TextColor="Black"
             VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+            HorizontalOptions="Center"
+            WidthRequest="100"/>
         </Border>
-    </VerticalStackLayout>
+    </ScrollView>
 </mopups:PopupPage>
