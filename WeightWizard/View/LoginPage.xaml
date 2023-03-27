@@ -27,27 +27,19 @@
                 FontAttributes="Bold"
                 HorizontalOptions="Center" />
             
-            <Label
-                Text="Username/Email"
-                SemanticProperties.HeadingLevel="Level3"
-                FontSize="14"
-                HorizontalOptions="Center" />
+            <Entry
+                Background="White"
+                Text="Username"
+                TextColor="Grey"/>
             
             <Entry
-                Background="White"/>
-            
-            <Label
+                Background="White"
                 Text="Password"
-                SemanticProperties.HeadingLevel="Level3"
-                FontSize="14"
-                HorizontalOptions="Center" />
-            
-            <Entry
-                Background="White"/>
+                TextColor="Grey"/>
             
             <Button
                 x:Name="LoginBtn"
-                TextColor="Black"
+                TextColor="Blue"
                 Text="Login"
                 SemanticProperties.Hint="Saves logged data from current day"
                 HorizontalOptions="Center" />

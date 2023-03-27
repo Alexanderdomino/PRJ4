@@ -19,8 +19,8 @@ public class ReportDrawable :IDrawable
         path.LineTo(10, 54);
         path.LineTo(8, 52);
         path.LineTo(8, 27);
-        path.Close();
-
+        path.Close(); 
+        
         canvas.DrawPath(path);
     }
 
