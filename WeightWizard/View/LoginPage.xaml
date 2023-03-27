@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightWizard.View.LoginPage"
+             Background="Blue">
+    <ScrollView>
+        <ScrollView.Resources>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+            </Style>
+        </ScrollView.Resources>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+            <Label
+                Text="Welcome"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="20"
+                HorizontalOptions="Center" />
+            
+            <Label
+                Text="Weight Wizard"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+            
+            <Label
+                Text="Username/Email"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"/>
+            
+            <Label
+                Text="Password"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"/>
+            
+            <Button
+                x:Name="LoginBtn"
+                TextColor="Black"
+                Text="Login"
+                SemanticProperties.Hint="Saves logged data from current day"
+                HorizontalOptions="Center" />
+            
+            <Label
+                Text="Forgot password"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
