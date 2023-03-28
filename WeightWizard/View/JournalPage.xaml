@@ -49,10 +49,6 @@
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Span="8" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
-                    
-                <!-- <CollectionView.GestureRecognizers> -->
-                <!--     <TapGestureRecognizer Command="{Binding CurrentDateCommand}" CommandParameter="Binding ."/> -->
-                <!-- </CollectionView.GestureRecognizers> -->
             </CollectionView>
         </VerticalStackLayout>
     </ScrollView>

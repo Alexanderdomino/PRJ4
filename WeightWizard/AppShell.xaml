@@ -8,22 +8,31 @@
     Shell.FlyoutBehavior="Disabled"
     NavBarIsVisible="False"
     BackgroundColor="Blue">
+    
+    <ShellContent
+        Title="SignIn"
+        ContentTemplate="{DataTemplate view:LoginPage}"
+        Route="login"/>
 
     <TabBar>
         <ShellContent Title="Logger"
                       Icon="log_icon.png"
-                      ContentTemplate="{DataTemplate local:MainPage}"></ShellContent>
+                      ContentTemplate="{DataTemplate local:MainPage}"
+                      Route="main"/>
                 
         <ShellContent Title="Trend"
                       Icon="trend_icon.png"
-                      ContentTemplate="{DataTemplate view:TrendPage}"></ShellContent>
+                      ContentTemplate="{DataTemplate view:TrendPage}"
+                      Route="trend"/>
                 
         <ShellContent Title="Journal"
                       Icon="journal_icon.png"
-                      ContentTemplate="{DataTemplate view:JournalPage}"></ShellContent>
+                      ContentTemplate="{DataTemplate view:JournalPage}"
+                      Route="journal"/>
                 
         <ShellContent Title="Profile"
                       Icon="profile_icon.png"
-                      ContentTemplate="{DataTemplate view:ProfilePage}"></ShellContent>
+                      ContentTemplate="{DataTemplate view:ProfilePage}"
+                      Route="profile"/>
     </TabBar>
 </Shell>
