@@ -59,6 +59,8 @@
                 Background="White"/>
 
             <Button
+                BackgroundColor="WhiteSmoke"
+                TextColor="Blue"
                 x:Name="SaveBtn"
                 Text="Save"
                 SemanticProperties.Hint="Saves logged data from current day"
