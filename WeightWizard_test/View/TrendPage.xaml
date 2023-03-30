@@ -4,13 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WeightWizard_test.View.TrendPage"
              xmlns:local="clr-namespace:WeightWizard_test.Model"
-             xmlns:drawables="clr-namespace:WeightWizard_test.Model.Drawables"
+             xmlns:drawables="clr-namespace:WeightWizard_test.ViewModel"
              Background="Blue">
     
     
-    <ContentPage.Resources>
+    <!--<ContentPage.Resources>
         <drawables:GraphicsDrawable x:Key="Drawable"/>
-    </ContentPage.Resources>
+    </ContentPage.Resources>-->
     
     <ScrollView>
         <ScrollView.Resources>
@@ -29,17 +29,20 @@
                 SemanticProperties.HeadingLevel="Level2"
                 FontSize="25"
                 HorizontalOptions="Center" />
-            
+
             <Label
                 Text="Trend"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
+            
 
-            <GraphicsView Drawable="{StaticResource Drawable}"
+            <drawables:TrendPageViewModel
                 HeightRequest="200"
                 WidthRequest="250"
                 HorizontalOptions="Center"/>
+
+
 
             <HorizontalStackLayout
                 Spacing="25"
