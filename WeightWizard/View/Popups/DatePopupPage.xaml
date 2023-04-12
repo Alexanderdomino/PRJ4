@@ -22,7 +22,7 @@
         <Border
             VerticalOptions="Fill"
             HorizontalOptions="Fill"
-            BackgroundColor="WhiteSmoke" >
+            BackgroundColor="White" >
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="40,40,0,0" />
             </Border.StrokeShape>
