@@ -26,9 +26,9 @@ public partial class ProfilePageViewModel: ObservableObject
             Description = "Remember to log your Data, to unlock weekly Report",
             Schedule = new NotificationRequestSchedule()
             {
-                NotifyTime = DateTime.Now.AddSeconds(5)
-                /*NotifyTime = DateTime.Today.AddHours(21),
-                RepeatType = NotificationRepeat.Daily*/
+                //NotifyTime = DateTime.Now.AddSeconds(5)
+                NotifyTime = DateTime.Today.AddHours(21),
+                RepeatType = NotificationRepeat.Daily
             }
         };
         await LocalNotificationCenter.Current.Show(request);
