@@ -60,8 +60,10 @@
                     VerticalOptions="Center"
                     Color="White"
                     HorizontalOptions="End"/>
-                <!--CheckedChanged="{Binding AllowNotificationsCommand}"-->
             </HorizontalStackLayout>
+            <Button
+                Text="Save"
+                Command="{Binding SaveChangesCommand}"/>
         </VerticalStackLayout>
     </ScrollView>
 
