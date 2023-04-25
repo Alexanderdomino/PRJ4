@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mopups.Hosting;
+using Plugin.LocalNotification;
 using WeightWizard.View;
 using WeightWizard.ViewModel;
 
@@ -12,6 +13,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseLocalNotification()
             .ConfigureMopups()
             .ConfigureFonts(fonts =>
             {
