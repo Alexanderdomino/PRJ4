@@ -56,7 +56,7 @@
                     TextColor="White"
                     HorizontalOptions="Start"/>             
                 <CheckBox 
-                    IsChecked="True"
+                    IsChecked="{Binding AllowNotificationsIsChecked}"
                     VerticalOptions="Center"
                     Color="White"
                     HorizontalOptions="End"/>

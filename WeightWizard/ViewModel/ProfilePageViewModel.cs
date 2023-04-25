@@ -6,7 +6,8 @@ namespace WeightWizard.ViewModel;
 
 public partial class ProfilePageViewModel: ObservableObject
 {
-    
+    [ObservableProperty]
+    public bool AllowNotificationsIsChecked = true;
     
     // Command to handle selection change
     [RelayCommand]
@@ -20,7 +21,8 @@ public partial class ProfilePageViewModel: ObservableObject
             Description = "Remember to log your Data, to unlock weekly Report",
             Schedule = new NotificationRequestSchedule()
             {
-                NotifyTime = DateTime.Today.AddHours(21)
+                NotifyTime = DateTime.Today.AddHours(21),
+                RepeatType = NotificationRepeat.Daily
             }
         };
     }
