@@ -30,12 +30,13 @@
                 SemanticProperties.HeadingLevel="Level2"
                 FontSize="50"
                 HorizontalOptions="Center" />
-
+            <HorizontalStackLayout>
             <Label
                 Text="Goal (in kg)"
                 SemanticProperties.HeadingLevel="Level2"
-                FontSize="30"
-                HorizontalOptions="Center" />
+                FontSize="26"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"/>
 
             <Entry
                 TextColor="Black"
@@ -43,19 +44,23 @@
                 FontSize="32"
                 BackgroundColor="White"
                 WidthRequest="200"
-                HorizontalOptions="Center" />
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+            </HorizontalStackLayout>
             
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Label 
                     Text="Allow Reminders"
                     FontSize="26"
                     VerticalOptions="Center"
-                    TextColor="White"/>             
+                    TextColor="White"
+                    HorizontalOptions="Start"/>             
                 <CheckBox 
                     IsChecked="True"
                     VerticalOptions="Center"
                     Color="White"
-                    CheckedChanged="{Binding AllowNotificationsCommand}"/>
+                    HorizontalOptions="End"/>
+                <!--CheckedChanged="{Binding AllowNotificationsCommand}"-->
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
