@@ -2,6 +2,7 @@
 using Mopups.Hosting;
 using WeightWizard.View;
 using WeightWizard.ViewModel;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace WeightWizard;
 
@@ -13,6 +14,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .ConfigureMopups()
+            .ConfigureSyncfusionCore()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
