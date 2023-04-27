@@ -2,15 +2,13 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:WeightWizard_test.Model"
+             xmlns:local="clr-namespace:WeightWizard_test"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+             xmlns:drawables="clr-namespace:WeightWizard_test.Model.Drawables"
              x:Class="WeightWizard_test.View.TrendPage"
-             xmlns:local="clr-namespace:WeightWizard_test.Model"
-             xmlns:drawables="clr-namespace:WeightWizard_test.ViewModel"
              Background="Blue">
     
-    
-    <!--<ContentPage.Resources>
-        <drawables:GraphicsDrawable x:Key="Drawable"/>
-    </ContentPage.Resources>-->
     
     <ScrollView>
         <ScrollView.Resources>
@@ -18,44 +16,96 @@
                 <Setter Property="TextColor" Value="WhiteSmoke"/>
             </Style>
         </ScrollView.Resources>
-        
+
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
 
             <Label
-                Text="Weight Wizard"
-                SemanticProperties.HeadingLevel="Level2"
-                FontSize="25"
-                HorizontalOptions="Center" />
-
-            <Label
                 Text="Trend"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
+
+            <Label
+                Text="Weights is white line, black is either steps or calories"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="15"
+                HorizontalOptions="Center" />
+
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="10">
+
+                <Button
+                Text="steps"
+                SemanticProperties.Hint="Saves logged data from current day"
+                    Command="{Binding SeeStepsCommand}"/>
+
+                <Button
+                Text="kcal"
+                SemanticProperties.Hint="Saves logged data from current day"
+                    Command="{Binding SeeCaloriesCommand}"/>
+
+                <Button
+                Text="Weight only"
+                SemanticProperties.Hint="Saves logged data from current day"
+                    Command="{Binding SeeWonlyCommand}"/>
+
+            </HorizontalStackLayout>
+            
             
 
-            <drawables:TrendPageViewModel
-                HeightRequest="200"
-                WidthRequest="250"
-                HorizontalOptions="Center"/>
+            <chart:SfCartesianChart
+                HorizontalOptions="Center">
+                <chart:SfCartesianChart.XAxes>
+                    <chart:CategoryAxis/>
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis Name="PrimaryY"/>
+                    <chart:NumericalAxis CrossesAt="{Static x:Double.MaxValue}" Name="SecondaryY"/>
+                </chart:SfCartesianChart.YAxes>
+
+                
+                
+                <chart:LineSeries ItemsSource="{Binding Data}"
+                        XBindingPath="Date"
+                        YBindingPath="Weight"
+                        YAxisName="PrimaryY"
+                        StrokeWidth="3"
+                        Fill="white">
+                        
+                </chart:LineSeries>
+                <chart:LineSeries ItemsSource="{Binding Data}"
+                        XBindingPath="Date"
+                        YBindingPath="Steps"
+                        YAxisName="SecondaryY"
+                        StrokeWidth="3"
+                        Fill="black">
+
+                </chart:LineSeries>
+            </chart:SfCartesianChart>
+
 
 
 
             <HorizontalStackLayout
                 Spacing="25"
                 Padding="30,0"
-                VerticalOptions="Center">
+                HorizontalOptions="Center">
 
 
                 <Button
-                x:Name="SaveBtn"
                 Text="3 months"
-                SemanticProperties.Hint="Saves logged data from current day"/>
-                
-                
+                SemanticProperties.Hint="Saves logged data from current day"
+                    Command="{Binding AddWeights90Command}"/>
+
+                <Button
+                Text="12 Months"
+                SemanticProperties.Hint="Saves logged data from current day"
+                    Command="{Binding AddWeights360Command}"/>
+
 
 
             </HorizontalStackLayout>
