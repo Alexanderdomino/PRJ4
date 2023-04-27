@@ -2,11 +2,11 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:WeightWizard_test.Model"
-             xmlns:local="clr-namespace:WeightWizard_test"
+             xmlns:model="clr-namespace:WeightWizard.Model"
+             xmlns:local="clr-namespace:WeightWizard"
              xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
-             xmlns:drawables="clr-namespace:WeightWizard_test.Model.Drawables"
-             x:Class="WeightWizard_test.View.TrendPage"
+             xmlns:drawables="clr-namespace:WeightWizard.Model.Drawables"
+             x:Class="WeightWizard.View.TrendPage"
              Background="Blue">
     
     
