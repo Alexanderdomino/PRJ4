@@ -52,7 +52,9 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="Mopups" Version="1.1.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Plugin.LocalNotification" Version="10.1.4" />
         <PackageReference Include="Syncfusion.Maui.Charts" Version="21.1.39" />
+
     </ItemGroup>
 
     <ItemGroup>
