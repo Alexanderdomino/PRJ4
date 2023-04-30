@@ -7,7 +7,7 @@ namespace WeightWizard.ViewModel;
 public partial class ProfilePageViewModel: ObservableObject
 {
     [ObservableProperty]
-    public bool _allowNotificationsIsChecked = true;
+    private bool _allowNotificationsIsChecked = true;
     
     // Command to handle selection change
     [RelayCommand]
