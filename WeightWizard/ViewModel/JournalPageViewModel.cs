@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -12,8 +11,10 @@ namespace WeightWizard.ViewModel
     public partial class JournalPageViewModel : ObservableObject
     {
         // Current selected date
+        // ReSharper disable once InconsistentNaming
         [ObservableProperty] public CalenderModel selectedItem;
 
+        // ReSharper disable once InconsistentNaming
         [ObservableProperty] public DateTime selectedMonth = DateTime.Now;
         
         partial void OnSelectedMonthChanged(DateTime SelectedMonth)
