@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeightWizard.ViewModel;
 
 namespace WeightWizard.View;
 
@@ -10,6 +11,10 @@ public partial class TrendPage : ContentPage
 {
     public TrendPage()
     {
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBaFt+QHFqVk9rXVNbdV5dVGpAd0N3RGlcdlR1fUUmHVdTRHRcQllhSX5RdUdjWXlbd3U=;Mgo+DSMBPh8sVXJ1S0d+X1hPd11dXmJWd1p/THNYflR1fV9DaUwxOX1dQl9gSXpRdkVhWn1ecHJSR2E=;ORg4AjUWIQA/Gnt2VFhhQlJNfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5XdEVjW3xccHRTTmZd;MTc4MzM5OEAzMjMxMmUzMTJlMzMzOVR0MitkUGRNdzYydXg5MjR3UHRPeDcwTnE4NjhQSXVuWXVTbyt1RTVhems9;MTc4MzM5OUAzMjMxMmUzMTJlMzMzOU5qcDVja3J0eFdaU3FaSU44VndLY3NxZS9JRWR3V09MTlc3OVVsNHRKK0k9;NRAiBiAaIQQuGjN/V0d+XU9Hf1RDX3xKf0x/TGpQb19xflBPallYVBYiSV9jS31TckdjWX1dcnRVQWZfUA==;MTc4MzQwMUAzMjMxMmUzMTJlMzMzOW10M3NQZGw3Q1ZwSmFMSkRKblF6azlQMDBieWZnREd4eTdQN1EranVqYXc9;MTc4MzQwMkAzMjMxMmUzMTJlMzMzOVNSWnl1ejBWVHNzY05TTXB6UUhVTGJiS1hobjMzM01zYnpaZ0hZeUZrUlE9;Mgo+DSMBMAY9C3t2VFhhQlJNfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5XdEVjW3xccHRdQmdd;MTc4MzQwNEAzMjMxMmUzMTJlMzMzOVZvWVRLN2Fka3J1ODhlVVcxbWloc2NKcGNTUE5SNDdVN1dUSHZueVBPdEk9;MTc4MzQwNUAzMjMxMmUzMTJlMzMzOU9nalllNm9LT1VuQjBscHB1dnliL3dNMzFFYm0yczJhejUvWmRGMnFvbFU9;MTc4MzQwNkAzMjMxMmUzMTJlMzMzOW10M3NQZGw3Q1ZwSmFMSkRKblF6azlQMDBieWZnREd4eTdQN1EranVqYXc9");
+
         InitializeComponent();
+
+        //BindingContext = new TrendPageViewModel();
     }
 }
