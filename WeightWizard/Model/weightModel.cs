@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeightWizard_test.Model
+namespace WeightWizard.Model
 {
 	public class weightModel
 	{

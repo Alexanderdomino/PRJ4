@@ -10,10 +10,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
-using WeightWizard_test.Model;
-using WeightWizard_test.Model.Drawables;
+using WeightWizard.Model;
+using WeightWizard.Model.Drawables;
 
-namespace WeightWizard_test.ViewModel
+namespace WeightWizard.ViewModel
 {
 	 public partial class TrendPageViewModel : ObservableObject
 	{
