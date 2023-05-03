@@ -45,6 +45,14 @@ namespace WeightWizard.ViewModel
         // Method to bind dates to the calendar
         private async void BindDates(DateTime selectedDate)
         {
+            // Check if there is a successful connection to the server
+            var isConnected = await CheckServerConnectionAsync();
+            if (!isConnected)
+            {
+                Console.WriteLine("Error connecting to server");
+                return;
+            }
+            
             // Get the number of days in the month
             var daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
 
@@ -108,7 +116,7 @@ namespace WeightWizard.ViewModel
                         Dates.Add(new ReportModel());
                     }
                 }
-                catch (WebException ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"Error connecting to server: {ex.Message}");
                 }
@@ -153,6 +161,20 @@ namespace WeightWizard.ViewModel
             }
             else
             {
+                return false;
+            }
+        }
+        
+        private async Task<bool> CheckServerConnectionAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("https://your-backend-server.com/userid/Lorem/Ipsum");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error connecting to server: {ex.Message}");
                 return false;
             }
         }
