@@ -35,7 +35,7 @@ namespace WeightWizard.ViewModel
         }
 
         // Method to bind dates to the calendar
-        private void BindDates(DateTime selectedDate)
+        public void BindDates(DateTime selectedDate)
         {
             // Get the number of days in the month
             var daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
