@@ -12,4 +12,10 @@ public class CalenderModel : ICalenderItems
     public DateTime Date { get; set; }
     public bool IsLogged { get; set; }
     public bool Unlocked { get; set; }
+    
+    public decimal MorningWeight { get; set; }
+    
+    public int CalorieIntake { get; set; }
+    
+    public int Steps { get; set; }
 }

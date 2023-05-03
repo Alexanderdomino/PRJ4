@@ -105,4 +105,6 @@ namespace WeightWizard.ViewModel
             SelectedMonth = SelectedMonth.AddMonths(-1);
         }
     }
+    
+    
 }
