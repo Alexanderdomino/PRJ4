@@ -8,6 +8,7 @@ on:
   pull_request:
     branches: [ master ]
   workflow_dispatch:
+
 permissions:
   contents: read
 
@@ -15,10 +16,9 @@ env:
   DOTNET_NOLOGO: true                     # Disable the .NET logo
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Disable the .NET first time experience
   DOTNET_CLI_TELEMETRY_OPTOUT: true       # Disable sending .NET CLI telemetry
-  PROJECT_PATH: "WeightWizard_test/WeightWizard_test.csproj"
+  PROJECT_PATH: "WeightWizard/WeightWizard.csproj"
 
 jobs:
-  
   # MAUI Android Build
   build-android:
     runs-on: windows-latest
@@ -31,6 +31,14 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.nuget/packages
+            ~/.local/share/NuGet
+          key: ${{ runner.os }}-dotnet-${{ hashFiles(env.PROJECT_PATH) }}
 
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
@@ -45,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           name: WeightWizard-android-ci-build
-          path: WeightWizard_test/bin/Release/net7.0-android/*Signed.a*
+          path: WeightWizard/bin/Release/net7.0-android/*Signed.a*
