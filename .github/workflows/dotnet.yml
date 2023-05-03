@@ -40,6 +40,18 @@ jobs:
             ~/.local/share/NuGet
           key: ${{ runner.os }}-dotnet-${{ hashFiles(env.PROJECT_PATH) }}
 
+      - name: Cache MAUI Workload
+        uses: actions/cache@v2
+        with:
+          path: ~/.dotnet/workloads
+          key: ${{ runner.os }}-dotnet-maui-${{ hashFiles('**/*.csproj') }}
+
+      - name: Cache MAUI Android Build
+        uses: actions/cache@v2
+        with:
+          path: WeightWizard/bin/Release/net7.0-android
+          key: ${{ runner.os }}-dotnet-maui-build-${{ hashFiles(env.PROJECT_PATH) }}
+
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
 
