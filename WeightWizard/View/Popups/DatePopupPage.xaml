@@ -23,12 +23,53 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="40,40,0,0" />
             </Border.StrokeShape>
+            <VerticalStackLayout>
             <Label
-            Text="{Binding SelectedDate,StringFormat='{0: dd MMM yyyy}'}"
-            TextColor="Black"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            WidthRequest="100"/>
+                Text="{Binding SelectedDate,StringFormat='{0: dd MMM yyyy}'}"
+                TextColor="Black"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+            
+            <Label
+                Text="Weigh in:"
+                TextColor="Black"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+            <Label
+                Text="{Binding MorningWeight}"
+                TextColor="Black"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+            
+            <Label
+                Text="Consumed Calories"
+                TextColor="Black"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+            <Label
+                Text="{Binding Calories}"
+                TextColor="Black"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+            
+            <Label
+                Text="Steps"
+                TextColor="Black"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+            <Label
+                Text="{Binding Steps}"
+                TextColor="Black"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+            </VerticalStackLayout>
         </Border>
     </ScrollView>
 </mopups:PopupPage>
