@@ -1,8 +1,12 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Net.Http.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Mopups.Services;
+using Newtonsoft.Json;
 using WeightWizard.Model;
+using WeightWizard.Model.DTOs;
 using WeightWizard.Model.Interfaces;
 using WeightWizard.View.Popups;
 
@@ -16,6 +20,9 @@ namespace WeightWizard.ViewModel
 
         // ReSharper disable once InconsistentNaming
         [ObservableProperty] public DateTime selectedMonth = DateTime.Now;
+        
+        //HttpClient for getting daily data
+        private readonly HttpClient _httpClient = new HttpClient();
         
         partial void OnSelectedMonthChanged(DateTime SelectedMonth)
         {
@@ -35,7 +42,7 @@ namespace WeightWizard.ViewModel
         }
 
         // Method to bind dates to the calendar
-        private void BindDates(DateTime selectedDate)
+        private async void BindDates(DateTime selectedDate)
         {
             // Get the number of days in the month
             var daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
@@ -70,11 +77,28 @@ namespace WeightWizard.ViewModel
             // Add days of the month to the collection
             for (var day = 1; day < daysCount; day++)
             {
-                Dates.Add(new CalenderModel
-                {
-                    Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
-                });
+                DailyDataDto dailyDataObj = new();
+                var result = await GetDailyDataAsync(1,selectedDate,dailyDataObj);
 
+                if (result)
+                {
+                    Dates.Add(new CalenderModel
+                    {
+                        IsLogged = true,
+                        Date = dailyDataObj.Date,
+                        CalorieIntake = dailyDataObj.CalorieIntake,
+                        Steps = dailyDataObj.Steps,
+                        MorningWeight = dailyDataObj.MorningWeight
+                    });
+                }
+                else
+                {
+                    Dates.Add(new CalenderModel
+                    {
+                        Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
+                    });
+                }
+                
                 // Add a report model after every 7 days
                 if ((day + daysBeforeMonth) % 7 == 0)
                 {
@@ -94,17 +118,36 @@ namespace WeightWizard.ViewModel
         [RelayCommand]
         public void MonthSwipeLeft()
         {
-            Console.WriteLine("Swpied Left");
             SelectedMonth = SelectedMonth.AddMonths(1);
         }
         
         [RelayCommand]
         public void MonthSwipeRight()
         {
-            Console.WriteLine("Swpied Right");
             SelectedMonth = SelectedMonth.AddMonths(-1);
         }
-    }
     
+        private async Task<bool> GetDailyDataAsync(int userId, DateTime date, DailyDataDto dtoRef)
+        {
+            var response = await _httpClient.GetAsync("https://your-backend-server.com/userid/Lorem/Ipsum");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+                
+                // Read the content as a string
+                var result = await content.ReadAsStringAsync();
+            
+                // Deserialize the JSON content into a strongly-typed object
+                 dtoRef = JsonConvert.DeserializeObject<DailyDataDto>(result);
+
+                 return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
     
 }
