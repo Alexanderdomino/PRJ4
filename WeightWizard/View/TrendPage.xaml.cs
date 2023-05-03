@@ -15,6 +15,6 @@ public partial class TrendPage : ContentPage
 
         InitializeComponent();
 
-        //BindingContext = new TrendPageViewModel();
+        BindingContext = new TrendPageViewModel();
     }
 }

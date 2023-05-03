@@ -11,10 +11,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
 
         <!-- Display name -->
-        <ApplicationTitle>WeightWizard_test</ApplicationTitle>
+        <ApplicationTitle>WeightWizard</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.weightwizard_test</ApplicationId>
+        <ApplicationId>com.companyname.weightwizard</ApplicationId>
         <ApplicationIdGuid>5882C5FF-AB3C-453B-A29C-D1FB26F60E73</ApplicationIdGuid>
 
         <!-- Versions -->
