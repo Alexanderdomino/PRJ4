@@ -19,10 +19,7 @@
         HorizontalOptions="Fill" 
         VerticalOptions="End" 
         BackgroundColor="#00000000" >
-        <Border
-            VerticalOptions="Fill"
-            HorizontalOptions="Fill"
-            BackgroundColor="White" >
+        <Border>
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="40,40,0,0" />
             </Border.StrokeShape>

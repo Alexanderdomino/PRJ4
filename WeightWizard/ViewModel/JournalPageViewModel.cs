@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -78,31 +79,38 @@ namespace WeightWizard.ViewModel
             for (var day = 1; day < daysCount; day++)
             {
                 DailyDataDto dailyDataObj = new();
-                var result = await GetDailyDataAsync(1,selectedDate,dailyDataObj);
+                try
+                {
+                    var result = await GetDailyDataAsync(1,selectedDate,dailyDataObj);
 
-                if (result)
-                {
-                    Dates.Add(new CalenderModel
+                    if (result)
                     {
-                        IsLogged = true,
-                        Date = dailyDataObj.Date,
-                        CalorieIntake = dailyDataObj.CalorieIntake,
-                        Steps = dailyDataObj.Steps,
-                        MorningWeight = dailyDataObj.MorningWeight
-                    });
-                }
-                else
-                {
-                    Dates.Add(new CalenderModel
+                        Dates.Add(new CalenderModel
+                        {
+                            IsLogged = true,
+                            Date = dailyDataObj.Date,
+                            CalorieIntake = dailyDataObj.CalorieIntake,
+                            Steps = dailyDataObj.Steps,
+                            MorningWeight = dailyDataObj.MorningWeight
+                        });
+                    }
+                    else
                     {
-                        Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
-                    });
-                }
+                        Dates.Add(new CalenderModel
+                        {
+                            Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
+                        });
+                    }
                 
-                // Add a report model after every 7 days
-                if ((day + daysBeforeMonth) % 7 == 0)
+                    // Add a report model after every 7 days
+                    if ((day + daysBeforeMonth) % 7 == 0)
+                    {
+                        Dates.Add(new ReportModel());
+                    }
+                }
+                catch (WebException ex)
                 {
-                    Dates.Add(new ReportModel());
+                    Console.WriteLine($"Error connecting to server: {ex.Message}");
                 }
             }
         }
@@ -112,7 +120,7 @@ namespace WeightWizard.ViewModel
         public void CurrentDate()
         {
             // Show popup of selected item
-            MopupService.Instance.PushAsync(new DatePopupPage(SelectedItem.Date));
+            MopupService.Instance.PushAsync(new DatePopupPage(SelectedItem));
         }
 
         [RelayCommand]
