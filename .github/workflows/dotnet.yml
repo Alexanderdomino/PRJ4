@@ -27,42 +27,58 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
       - name: Setup .NET 7
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
 
-      - name: Cache MAUI Android Build
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/AppData/Local/Android/Sdk/ndk/*
-            ~/AppData/Local/Android/Sdk/ndk-bundle/*
-          key: ${{ runner.os }}-maui-android-build-${{ hashFiles(env.PROJECT_PATH) }}-${{ hashFiles('**/android*.csproj') }}
-
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: true
+          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+        id: install-maui
+        continue-on-error: true
 
       - name: Cache MAUI Workload
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2
         with:
-          path: ~/.nuget/packages/xamarin.maui.*
-          key: ${{ runner.os }}-maui-workload-${{ hashFiles(env.PROJECT_PATH) }}
+          path: ~/.nuget/packages/
+          key: ${{ runner.os }}-dotnet-maui-workload-${{ hashFiles('global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-maui-workload-
+            ${{ runner.os }}-dotnet-
 
       - name: Restore Dependencies
+        if: steps.install-maui.outcome == 'success'
         run: dotnet restore ${{ env.PROJECT_PATH }}
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: true
+          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+      - name: Cache MAUI Android Build
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.nuget/packages/
+            ~/.local/share/NuGet/
+          key: ${{ runner.os }}-dotnet-${{ env.PROJECT_PATH }}-v7-android-${{ hashFiles(env.PROJECT_PATH) }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-${{ env.PROJECT_PATH }}-v7-android-
+            ${{ runner.os }}-dotnet-${{ env.PROJECT_PATH }}-
+            ${{ runner.os }}-dotnet-
+            ${{ runner.os }}-
+          cache-version: v2
+        env:
+          cache-name: cache-maui-android-build
 
       - name: Build MAUI Android
         run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -f net7.0-android --no-restore
-
-      - name: Cache MAUI Android Output
-        uses: actions/cache@v2.1.6
-        with:
-          path: WeightWizard/bin/Release/net7.0-android/
-          key: ${{ runner.os }}-maui-android-output-${{ hashFiles(env.PROJECT_PATH) }}
-
-      - name: Upload Android Artifact
-        uses: actions/upload-artifact@v3.1.0
-        with:
-          name: WeightWizard-android-ci-build
-          path: WeightWizard/bin/Release/net7.0-android/*Signed.a*
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: true
+          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
