@@ -146,8 +146,8 @@ namespace WeightWizard.ViewModel
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
-            var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/" + userId + "/" + formattedDate + "T00%3A00%3A00");
-            //var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/1/2023-05-01T00%3A00%3A00");
+            var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/" + userId + "/" +
+                                                      formattedDate + "T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content;
@@ -156,9 +156,9 @@ namespace WeightWizard.ViewModel
                 var result = await content.ReadAsStringAsync();
             
                 // Deserialize the JSON content into a strongly-typed object
-                 var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
+                var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
 
-                 return dailyDataDto;
+                return dailyDataDto;
             }
             else
             {
