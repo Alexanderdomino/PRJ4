@@ -145,8 +145,8 @@ namespace WeightWizard.ViewModel
     
         private async Task<bool> GetDailyDataAsync(int userId, DateTime date, DailyDataDto dtoRef)
         {
-            var response = await _httpClient.GetAsync("https://your-backend-server.com/userid/Lorem/Ipsum");
-
+            //var response = await _httpClient.GetAsync("https://localhost:5211/api/DailyData/" + userId + "/" + date);
+            var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/1/2023-05-01T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content;
@@ -169,7 +169,7 @@ namespace WeightWizard.ViewModel
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://your-backend-server.com/userid/Lorem/Ipsum");
+                var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData");
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
