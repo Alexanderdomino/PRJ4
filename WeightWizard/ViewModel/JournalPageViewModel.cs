@@ -20,8 +20,8 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] public CalenderModel selectedItem;
 
         // ReSharper disable once InconsistentNaming
-        [ObservableProperty] public DateTime selectedMonth = DateTime.Now;
-        
+        [ObservableProperty] public DateTime selectedMonth = DateTime.Today;
+
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new HttpClient();
         
@@ -86,12 +86,12 @@ namespace WeightWizard.ViewModel
             // Add days of the month to the collection
             for (var day = 1; day < daysCount; day++)
             {
-                DailyDataDto dailyDataObj = new();
+                var dateToGetOn = new DateTime(selectedDate.Year, selectedDate.Month, day);
                 try
                 {
-                    var result = await GetDailyDataAsync(1,selectedDate,dailyDataObj);
+                    var dailyDataObj = await GetDailyDataAsync(1,dateToGetOn);
 
-                    if (result)
+                    if (dailyDataObj != null)
                     {
                         Dates.Add(new CalenderModel
                         {
@@ -143,10 +143,11 @@ namespace WeightWizard.ViewModel
             SelectedMonth = SelectedMonth.AddMonths(-1);
         }
     
-        private async Task<bool> GetDailyDataAsync(int userId, DateTime date, DailyDataDto dtoRef)
+        private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
-            //var response = await _httpClient.GetAsync("https://localhost:5211/api/DailyData/" + userId + "/" + date);
-            var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/1/2023-05-01T00%3A00%3A00");
+            var formattedDate = date.ToString("yyyy-MM-dd");
+            var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/" + userId + "/" + formattedDate + "T00%3A00%3A00");
+            //var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/1/2023-05-01T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content;
@@ -155,13 +156,13 @@ namespace WeightWizard.ViewModel
                 var result = await content.ReadAsStringAsync();
             
                 // Deserialize the JSON content into a strongly-typed object
-                 dtoRef = JsonConvert.DeserializeObject<DailyDataDto>(result);
+                 var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
 
-                 return true;
+                 return dailyDataDto;
             }
             else
             {
-                return false;
+                return null;
             }
         }
         

@@ -47,7 +47,6 @@
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>
-            <Label Text="{Binding SelectedItem.Date,StringFormat='{0: dd MMM yyyy}'}"/>
             
             <CollectionView ItemsSource="{Binding Dates}"
                             ItemTemplate="{x:StaticResource CalenderTemplate}"
