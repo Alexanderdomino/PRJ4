@@ -39,20 +39,20 @@
                 HorizontalOptions="Center"
                 Spacing="10">
 
-                <!--<Button
-                Text="steps"
+                <Button
+                Text="All"
                 SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding SeeStepsCommand}"/>
+                    Command="{Binding SeeAllCommand}"/>
 
                 <Button
-                Text="kcal"
+                Text="3 months"
                 SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding SeeCaloriesCommand}"/>
+                    Command="{Binding SeeThreeMonthsCommand}"/>
 
                 <Button
-                Text="Weight only"
+                Text="1 month"
                 SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding SeeWonlyCommand}"/>-->
+                    Command="{Binding SeeMonthCommand}"/>
 
             </HorizontalStackLayout>
 
@@ -63,7 +63,7 @@
             <chart:SfCartesianChart
                 HorizontalOptions="Center">
 
-                <!--<chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.XAxes>
                     <chart:CategoryAxis/>
                 </chart:SfCartesianChart.XAxes>
 
@@ -71,13 +71,10 @@
                     <chart:NumericalAxis Name="PrimaryY" IsVisible="False" ShowMajorGridLines="True"/>
                     <chart:NumericalAxis ShowMajorGridLines="False" Name="SecondaryY" IsVisible="False"/>
                     <chart:NumericalAxis Name="TertiaryY" IsVisible="False" ShowMajorGridLines="False"/>
-                </chart:SfCartesianChart.YAxes>-->
+                </chart:SfCartesianChart.YAxes>
 
-                <chart:SfCartesianChart.SelectionBehavior>
-                    <chart:SeriesSelectionBehavior SelectionBrush="black"/>
-                </chart:SfCartesianChart.SelectionBehavior>
-
-                <chart:SfCartesianChart.Series>
+                
+                
 
                     <chart:FastLineSeries ItemsSource="{Binding Data}"
                         XBindingPath="Date"
@@ -103,31 +100,12 @@
                         Fill="red">
 
                 </chart:FastLineSeries>
-                </chart:SfCartesianChart.Series>
             </chart:SfCartesianChart>
 
 
 
 
-            <HorizontalStackLayout
-                Spacing="25"
-                Padding="30,0"
-                HorizontalOptions="Center">
-
-
-                <Button
-                Text="3 months"
-                SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding AddWeights90Command}"/>
-
-                <Button
-                Text="12 Months"
-                SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding AddWeights360Command}"/>
-
-
-
-            </HorizontalStackLayout>
+            
 
 
 

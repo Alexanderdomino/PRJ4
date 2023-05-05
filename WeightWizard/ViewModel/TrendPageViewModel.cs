@@ -13,6 +13,7 @@ using System.Windows.Markup;
 using WeightWizard.Model;
 using WeightWizard.Model.Drawables;
 using WeightWizard.View;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 //using WeightWizard.View.WeightWizard;
 
 namespace WeightWizard.ViewModel
@@ -29,9 +30,9 @@ namespace WeightWizard.ViewModel
 
         public enum ShowStates
         {
-            Steps,
-            Calories,
-            Wonly
+            All,
+            ThreeMonths,
+            Month
         }
 
         public ShowStates state;
@@ -43,11 +44,11 @@ namespace WeightWizard.ViewModel
 
             webdata = new ObservableCollection<weightModel>();
 
-            state = ShowStates.Wonly;
+            state = ShowStates.All;
 
             getData();
 
-            ShowData90();
+            ShowData();
         }
 
         public void getData()
@@ -80,47 +81,55 @@ namespace WeightWizard.ViewModel
 
         [RelayCommand]
 
-        public void SeeSteps()
+        public void SeeThreeMonths()
         {
-            state = ShowStates.Steps;
-            ShowData90();
+            state = ShowStates.ThreeMonths;
+            ShowData();
         }
 
         [RelayCommand]
 
-        public async void SeeCalories()
+        public void SeeAll()
         {
-            state = ShowStates.Calories;
-            ShowData90();
+            state = ShowStates.All;
+            ShowData();
         }
 
 
         [RelayCommand]
-        public void SeeWonly()
+        public void SeeMonth()
         {
-            state = ShowStates.Wonly;
-            ShowData90();
+            state = ShowStates.Month;
+            ShowData();
         }
 
 
         [RelayCommand]
-        public void ShowData90()
+        public void ShowData()
         {
 
 
             switch (state)
             {
-                case ShowStates.Steps:
+                case ShowStates.All:
                     Data.Clear();
                     Data = new ObservableCollection<weightModel>(webdata);
                     break;
-                case ShowStates.Calories:
+                case ShowStates.ThreeMonths:
                     Data.Clear();
-                    Data = new ObservableCollection<weightModel>(webdata);
+                    foreach (var item in webdata)
+                        if (item.Date <= DateTime.Now.AddDays(90))
+                        {
+                            Data.Add(item);
+                        }
                     break;
-                case ShowStates.Wonly:
+                case ShowStates.Month:
                     Data.Clear();
-                    Data = new ObservableCollection<weightModel>(webdata);
+                    foreach (var item in webdata)
+                        if (item.Date <= DateTime.Now.AddDays(7))
+                        {
+                            Data.Add(item);
+                        }
                     break;
                 default:
                     break;
