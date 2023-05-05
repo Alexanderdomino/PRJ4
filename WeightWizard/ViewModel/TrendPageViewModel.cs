@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Markup;
 using WeightWizard.Model;
 using WeightWizard.Model.Drawables;
+using WeightWizard.View;
+//using WeightWizard.View.WeightWizard;
 
 namespace WeightWizard.ViewModel
 {
@@ -64,13 +66,13 @@ namespace WeightWizard.ViewModel
                 {
                     weight += ran.NextDouble();
                     steps -= 600;
-                    calories -= 100;
+                    calories += 10;
                 }
                 else
                 {
                     weight -= ran.NextDouble();
                     steps += 600;
-                    calories += 100;
+                    calories -= 10;
                 }
             }
         }
@@ -86,7 +88,7 @@ namespace WeightWizard.ViewModel
 
         [RelayCommand]
 
-        public void SeeCalories()
+        public async void SeeCalories()
         {
             state = ShowStates.Calories;
             ShowData90();
