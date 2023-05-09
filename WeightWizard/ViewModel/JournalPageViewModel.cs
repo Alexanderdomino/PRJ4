@@ -1,8 +1,13 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Http.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Mopups.Services;
+using Newtonsoft.Json;
 using WeightWizard.Model;
+using WeightWizard.Model.DTOs;
 using WeightWizard.Model.Interfaces;
 using WeightWizard.View.Popups;
 
@@ -15,7 +20,12 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] public CalenderModel selectedItem;
 
         // ReSharper disable once InconsistentNaming
-        [ObservableProperty] public DateTime selectedMonth = DateTime.Now;
+        [ObservableProperty] public DateTime selectedMonth = DateTime.Today;
+
+        private bool _isLoading = false;
+
+        //HttpClient for getting daily data
+        private readonly HttpClient _httpClient = new HttpClient();
         
         partial void OnSelectedMonthChanged(DateTime SelectedMonth)
         {
@@ -35,8 +45,17 @@ namespace WeightWizard.ViewModel
         }
 
         // Method to bind dates to the calendar
-        private void BindDates(DateTime selectedDate)
+        private async void BindDates(DateTime selectedDate)
         {
+            _isLoading = true;
+            // Check if there is a successful connection to the server
+            var isConnected = await CheckServerConnectionAsync();
+            if (!isConnected)
+            {
+                Console.WriteLine("Error connecting to server");
+                return;
+            }
+            
             // Get the number of days in the month
             var daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
 
@@ -70,39 +89,116 @@ namespace WeightWizard.ViewModel
             // Add days of the month to the collection
             for (var day = 1; day < daysCount; day++)
             {
-                Dates.Add(new CalenderModel
+                var dateToGetOn = new DateTime(selectedDate.Year, selectedDate.Month, day);
+                try
                 {
-                    Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
-                });
+                    var dailyDataObj = await GetDailyDataAsync(1,dateToGetOn);
 
-                // Add a report model after every 7 days
-                if ((day + daysBeforeMonth) % 7 == 0)
+                    if (dailyDataObj != null)
+                    {
+                        Dates.Add(new CalenderModel
+                        {
+                            IsLogged = true,
+                            Date = dailyDataObj.Date,
+                            CalorieIntake = dailyDataObj.CalorieIntake,
+                            Steps = dailyDataObj.Steps,
+                            MorningWeight = dailyDataObj.MorningWeight
+                        });
+                    }
+                    else
+                    {
+                        Dates.Add(new CalenderModel
+                        {
+                            Date = new DateTime(selectedDate.Year, selectedDate.Month, day)
+                        });
+                    }
+                
+                    // Add a report model after every 7 days
+                    if ((day + daysBeforeMonth) % 7 == 0)
+                    {
+                        Dates.Add(new ReportModel());
+                    }
+                }
+                catch (Exception ex)
                 {
-                    Dates.Add(new ReportModel());
+                    Console.WriteLine($"Error connecting to server: {ex.Message}");
                 }
             }
+
+            _isLoading = false;
         }
 
         // Command to handle selection change
         [RelayCommand]
         public void CurrentDate()
         {
-            // Show popup of selected item
-            MopupService.Instance.PushAsync(new DatePopupPage(SelectedItem.Date));
+            if (SelectedItem is CalenderModel)
+            {
+                // Show popup of selected item
+                MopupService.Instance.PushAsync(new DatePopupPage(SelectedItem));
+            }
+            else if (SelectedItem is ReportModel)
+            {
+                MopupService.Instance.PushAsync(new ReportPopupPage());
+            }
         }
 
         [RelayCommand]
         public void MonthSwipeLeft()
         {
-            Console.WriteLine("Swpied Left");
+            if (_isLoading == true)
+            {
+                return;
+            }
             SelectedMonth = SelectedMonth.AddMonths(1);
         }
         
         [RelayCommand]
         public void MonthSwipeRight()
         {
-            Console.WriteLine("Swpied Right");
+            if (_isLoading == true)
+            {
+                return;
+            }
             SelectedMonth = SelectedMonth.AddMonths(-1);
         }
+    
+        private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
+        {
+            var formattedDate = date.ToString("yyyy-MM-dd");
+            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+                                                      formattedDate + "T00%3A00%3A00");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+                
+                // Read the content as a string
+                var result = await content.ReadAsStringAsync();
+            
+                // Deserialize the JSON content into a strongly-typed object
+                var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
+
+                return dailyDataDto;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
+        private async Task<bool> CheckServerConnectionAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error connecting to server: {ex.Message}");
+                return false;
+            }
+        }
     }
+    
 }

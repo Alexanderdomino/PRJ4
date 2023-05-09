@@ -11,6 +11,7 @@ public partial class ProfilePageViewModel: ObservableObject
     
     // Command to handle selection change
     [RelayCommand]
+    // ReSharper disable once MemberCanBePrivate.Global
     public async void SaveChanges()
     {
         //Do something with goal weight...
