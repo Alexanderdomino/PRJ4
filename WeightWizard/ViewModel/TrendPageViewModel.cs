@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -75,6 +77,30 @@ namespace WeightWizard.ViewModel
                     steps += 600;
                     calories -= 10;
                 }
+            }
+        }
+
+
+        private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
+        {
+            var formattedDate = date.ToString("yyyy-MM-dd");
+            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+                                                      formattedDate + "T00%3A00%3A00");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                // Read the content as a string
+                var result = await content.ReadAsStringAsync();
+
+                // Deserialize the JSON content into a strongly-typed object
+                var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
+
+                return dailyDataDto;
+            }
+            else
+            {
+                return null;
             }
         }
 
