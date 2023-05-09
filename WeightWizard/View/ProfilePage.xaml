@@ -30,13 +30,12 @@
                 SemanticProperties.HeadingLevel="Level2"
                 FontSize="50"
                 HorizontalOptions="Center" />
-            <HorizontalStackLayout>
+            
             <Label
                 Text="Goal (in kg)"
                 SemanticProperties.HeadingLevel="Level2"
                 FontSize="26"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"/>
+                HorizontalOptions="Center"/>
 
             <Entry
                 TextColor="Black"
@@ -44,9 +43,7 @@
                 FontSize="32"
                 BackgroundColor="White"
                 WidthRequest="200"
-                VerticalOptions="Center"
-                HorizontalOptions="End"/>
-            </HorizontalStackLayout>
+                HorizontalOptions="Center"/>
             
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Label 
