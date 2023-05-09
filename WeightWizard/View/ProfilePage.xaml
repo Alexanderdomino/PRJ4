@@ -43,7 +43,8 @@
                 FontSize="32"
                 BackgroundColor="White"
                 WidthRequest="200"
-                HorizontalOptions="Center"/>
+                HorizontalOptions="Center"
+                Text="{Binding DesiredWeight}"/>
             
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Label 
