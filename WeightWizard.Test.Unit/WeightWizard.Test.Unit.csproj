@@ -1,11 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <UseMaui>true</UseMaui>
 
         <IsPackable>false</IsPackable>
+
+        <!-- App Identifier -->
+        <ApplicationId>com.companyname.weightwizard_test</ApplicationId>
+        <ApplicationIdGuid>5882C5FF-AB3C-453B-A29C-D1FB26F60E73</ApplicationIdGuid>
+
+        <OutputType> Condition="'$(TargetFramework)' != 'net7.0'">Exe</OutputType>
+
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +30,10 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WeightWizard\WeightWizard.csproj" />
     </ItemGroup>
 
 </Project>
