@@ -22,6 +22,8 @@ namespace WeightWizard.ViewModel
         // ReSharper disable once InconsistentNaming
         [ObservableProperty] public DateTime selectedMonth = DateTime.Today;
 
+        private bool _isLoading = false;
+
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new HttpClient();
         
@@ -45,6 +47,7 @@ namespace WeightWizard.ViewModel
         // Method to bind dates to the calendar
         private async void BindDates(DateTime selectedDate)
         {
+            _isLoading = true;
             // Check if there is a successful connection to the server
             var isConnected = await CheckServerConnectionAsync();
             if (!isConnected)
@@ -121,32 +124,49 @@ namespace WeightWizard.ViewModel
                     Console.WriteLine($"Error connecting to server: {ex.Message}");
                 }
             }
+
+            _isLoading = false;
         }
 
         // Command to handle selection change
         [RelayCommand]
         public void CurrentDate()
         {
-            // Show popup of selected item
-            MopupService.Instance.PushAsync(new DatePopupPage(SelectedItem));
+            if (SelectedItem is CalenderModel)
+            {
+                // Show popup of selected item
+                MopupService.Instance.PushAsync(new DatePopupPage(SelectedItem));
+            }
+            else if (SelectedItem is ReportModel)
+            {
+                MopupService.Instance.PushAsync(new ReportPopupPage());
+            }
         }
 
         [RelayCommand]
         public void MonthSwipeLeft()
         {
+            if (_isLoading == true)
+            {
+                return;
+            }
             SelectedMonth = SelectedMonth.AddMonths(1);
         }
         
         [RelayCommand]
         public void MonthSwipeRight()
         {
+            if (_isLoading == true)
+            {
+                return;
+            }
             SelectedMonth = SelectedMonth.AddMonths(-1);
         }
     
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
-            var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData/" + userId + "/" +
+            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
                                                       formattedDate + "T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
@@ -170,7 +190,7 @@ namespace WeightWizard.ViewModel
         {
             try
             {
-                var response = await _httpClient.GetAsync("http://localhost:5211/api/DailyData");
+                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData");
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
