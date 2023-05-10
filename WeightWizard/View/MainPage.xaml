@@ -38,7 +38,8 @@
                 HorizontalOptions="Center" />
             
             <Entry
-                Background="White"/>
+                Background="White"
+                Keyboard="Numeric"/>
 
             <Label
                 Text="Calories"
@@ -47,16 +48,18 @@
                 HorizontalOptions="Center" />
 
             <Entry
-                Background="White"/>
+                Background="White"
+                Keyboard="Numeric"/>
             
             <Label
                 Text="Steps"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="16"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"/>
 
             <Entry
-                Background="White"/>
+                Background="White"
+                Keyboard="Numeric"/>
 
             <Button
                 BackgroundColor="WhiteSmoke"

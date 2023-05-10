@@ -4,6 +4,7 @@
         <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <UseMaui>true</UseMaui>
 
         <IsPackable>false</IsPackable>
 
@@ -11,7 +12,11 @@
         <ApplicationId>com.companyname.weightwizard_test</ApplicationId>
         <ApplicationIdGuid>5882C5FF-AB3C-453B-A29C-D1FB26F60E73</ApplicationIdGuid>
 
+
         <OutputType>Exe</OutputType>
+
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
     <ItemGroup>

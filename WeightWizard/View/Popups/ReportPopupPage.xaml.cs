@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeightWizard.Model;
 using WeightWizard.ViewModel.PopupViewmodel;
 
 namespace WeightWizard.View.Popups;
 
-public partial class DatePopupPage
+public partial class ReportPopupPage
 {
-    public DatePopupPage(CalenderModel selectedItem)
+    public ReportPopupPage()
     {
         InitializeComponent();
-        BindingContext = new DatePopupViewModel(selectedItem);
+        BindingContext = new ReportPopupViewModel();
     }
 }
