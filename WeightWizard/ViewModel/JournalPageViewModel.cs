@@ -46,6 +46,7 @@ namespace WeightWizard.ViewModel
 
         // Method to bind dates to the calendar
         private async void BindDates(DateTime selectedDate)
+
         {
             _isLoading = true;
             // Check if there is a successful connection to the server

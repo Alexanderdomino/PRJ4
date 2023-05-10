@@ -12,7 +12,8 @@
         <ApplicationId>com.companyname.weightwizard_test</ApplicationId>
         <ApplicationIdGuid>5882C5FF-AB3C-453B-A29C-D1FB26F60E73</ApplicationIdGuid>
 
-        <OutputType> Condition="'$(TargetFramework)' != 'net7.0'">Exe</OutputType>
+
+        <OutputType>Exe</OutputType>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
