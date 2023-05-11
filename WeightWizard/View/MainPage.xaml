@@ -29,7 +29,8 @@
             
             <DatePicker
                 HorizontalOptions="Center"
-                FontSize="20"/>
+                FontSize="20"
+                Date="{Binding SelectedDate}"/>
  
             <Label
                 Text="Weight"
@@ -67,7 +68,8 @@
                 x:Name="SaveBtn"
                 Text="Save"
                 SemanticProperties.Hint="Saves logged data from current day"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                Command="{Binding LogDataCommand}"/>
 
         </VerticalStackLayout>
     </ScrollView>
