@@ -11,16 +11,14 @@ namespace WeightWizard.ViewModel
         //[ObservableProperty] private int _userId;
         [ObservableProperty] private decimal _morningWeight;
         [ObservableProperty] private int _steps;
-       // [ObservableProperty] private double _desiredWeight;
+        //[ObservableProperty] private double _desiredWeight;
         [ObservableProperty] private int _dailyCalorieIntake;
         [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
         
-        
-
         private readonly HttpClient _httpClient = new HttpClient();
 
         [RelayCommand]
-        public async void LogData(UserDto currentUser)
+        public async void LogData()
         {
             Console.WriteLine("executing post logdata");
             if (MorningWeight<=0 ||Steps<=0||DailyCalorieIntake<=0)
@@ -33,11 +31,12 @@ namespace WeightWizard.ViewModel
                 if (isLogged) return;
                 try
                 {
-                    var postSuccessful = await LogAsync(currentUser.UserId, currentUser.DesiredWeight);
+                    var postSuccessful = await LogAsync(1, 100);
 
                     if (postSuccessful)
                     {
                         //display data logged popup
+                        Console.WriteLine("Data Successfully Logged");
                     }
                     else
                     {
@@ -53,24 +52,40 @@ namespace WeightWizard.ViewModel
 
         private async Task<bool> LogAsync(int userId, decimal desiredWeight)
         {
-            var logDataDto = new DailyDataDto();
+            try
+            {
+                var logDataDto = new DailyDataDto();
 
-            logDataDto.UserId = userId;
-            logDataDto.MorningWeight = MorningWeight;
-           
-            logDataDto.CalorieIntake = DailyCalorieIntake;
-            logDataDto.DesiredWeight = desiredWeight;
-            logDataDto.Date = SelectedDate; ;
-            logDataDto.Steps = Steps;
-            var jsonLoginData = JsonConvert.SerializeObject(logDataDto);
+                logDataDto.UserId = userId;
+                logDataDto.MorningWeight = MorningWeight;
+                logDataDto.CalorieIntake = DailyCalorieIntake;
+                logDataDto.DesiredWeight = desiredWeight;
+                logDataDto.Date = SelectedDate;
+                logDataDto.Steps = Steps;
+                var jsonLoginData = JsonConvert.SerializeObject(logDataDto);
 
-            var postData = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
+                var postData = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("https://localhost:7118/api/logDatas", postData);
+                var response = await _httpClient.PostAsync("http://localhost:7023/api/DailyData", postData);
 
-            Console.WriteLine("response");
-            return response.IsSuccessStatusCode;
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Data logged successfully.");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Failed to log data. StatusCode: " + response.StatusCode);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while logging data: " + ex.Message);
+                return false;
+            }
         }
+
         
         private async Task<bool> CheckIfDayIsEmptyAsync(int userId, DateTime date)
         {

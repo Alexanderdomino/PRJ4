@@ -40,7 +40,8 @@
             
             <Entry
                 Background="White"
-                Keyboard="Numeric"/>
+                Keyboard="Numeric"
+                Text="{Binding MorningWeight}"/>
 
             <Label
                 Text="Calories"
@@ -50,7 +51,8 @@
 
             <Entry
                 Background="White"
-                Keyboard="Numeric"/>
+                Keyboard="Numeric"
+                Text="{Binding DailyCalorieIntake}"/>
             
             <Label
                 Text="Steps"
@@ -60,7 +62,8 @@
 
             <Entry
                 Background="White"
-                Keyboard="Numeric"/>
+                Keyboard="Numeric"
+                Text="{Binding Steps}"/>
 
             <Button
                 BackgroundColor="WhiteSmoke"
