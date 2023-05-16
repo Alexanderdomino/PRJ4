@@ -66,7 +66,7 @@ namespace WeightWizard.ViewModel
 
                 var postData = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync("http://localhost:7023/api/DailyData", postData);
+                var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/DailyData", postData);
 
                 if (response.IsSuccessStatusCode)
                 {
