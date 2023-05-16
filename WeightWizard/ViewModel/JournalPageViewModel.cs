@@ -17,7 +17,7 @@ namespace WeightWizard.ViewModel
     {
         // Current selected date
         // ReSharper disable once InconsistentNaming
-        [ObservableProperty] public CalenderModel selectedItem;
+        [ObservableProperty] public ICalenderItems selectedItem;
 
         // ReSharper disable once InconsistentNaming
         [ObservableProperty] public DateTime selectedMonth = DateTime.Today;
