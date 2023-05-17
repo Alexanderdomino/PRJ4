@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Text;
-using Syncfusion.Maui.Core.Converters;
 using WeightWizard.Model.DTOs;
 
 
