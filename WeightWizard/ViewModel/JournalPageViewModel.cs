@@ -17,7 +17,7 @@ namespace WeightWizard.ViewModel
     {
         // Current selected date
         // ReSharper disable once InconsistentNaming
-        [ObservableProperty] public CalenderModel selectedItem;
+        [ObservableProperty] public ICalenderItems selectedItem;
 
         // ReSharper disable once InconsistentNaming
         [ObservableProperty] public DateTime selectedMonth = DateTime.Today;
@@ -46,6 +46,7 @@ namespace WeightWizard.ViewModel
 
         // Method to bind dates to the calendar
         private async void BindDates(DateTime selectedDate)
+
         {
             _isLoading = true;
             // Check if there is a successful connection to the server
@@ -64,6 +65,8 @@ namespace WeightWizard.ViewModel
 
             // Get the number of days before the first day of the month
             var daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
+
+            var LoggedDays = 0;
 
             // Add day names to the collection
             for (var i = 1; i < 8; i++)
@@ -104,6 +107,7 @@ namespace WeightWizard.ViewModel
                             Steps = dailyDataObj.Steps,
                             MorningWeight = dailyDataObj.MorningWeight
                         });
+                        LoggedDays++;
                     }
                     else
                     {
@@ -116,7 +120,19 @@ namespace WeightWizard.ViewModel
                     // Add a report model after every 7 days
                     if ((day + daysBeforeMonth) % 7 == 0)
                     {
-                        Dates.Add(new ReportModel());
+                        if (LoggedDays > 4)
+                        {
+                            Dates.Add(new ReportModel
+                            {
+                                Unlocked = true
+                            });
+                            LoggedDays = 0;
+                        }
+                        else
+                        {
+                            Dates.Add(new ReportModel());
+                            LoggedDays = 0;
+                        }
                     }
                 }
                 catch (Exception ex)
