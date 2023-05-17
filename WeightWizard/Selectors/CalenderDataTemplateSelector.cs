@@ -24,8 +24,8 @@ public class CalenderDataTemplateSelector : DataTemplateSelector
             case CalenderModel:
                 return obj.IsLogged ? LoggedDayTemplate : NotLoggedDayTemplate;
             case ReportModel:
-                return LockedReportTemplate;
-            //     return obj.Unlocked ? UnlockedReportTemplate : LockedReportTemplate;
+                return LockedReportTemplate;    
+            //return obj.Unlocked ? UnlockedReportTemplate : LockedReportTemplate;
             case EmptyDayModel:
                 return EmptyDayTemplate;
             case DayNameModel:

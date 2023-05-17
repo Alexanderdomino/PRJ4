@@ -61,12 +61,24 @@
             
             <DataTemplate x:Key="LockedReportTemplate" x:DataType="model:ReportModel">
                 <VerticalStackLayout>
-                    <GraphicsView
-                        x:Name="Canvas"
-                        HorizontalOptions="Center"
-                        HeightRequest="60"
-                        WidthRequest="40"
-                        Drawable="{StaticResource ReportDrawable}"/>
+                    <Label
+                        Text=" "
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="UnlockedReportTemplate" x:DataType="model:ReportModel">
+                <VerticalStackLayout>
+                    <Label
+                        Text=" "
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"/>
+                    <Image
+                        Source="report.png"
+                        HeightRequest="40"
+                        WidthRequest="60"
+                        Scale="0.7"/>
                 </VerticalStackLayout>
             </DataTemplate>
             
@@ -84,6 +96,7 @@
                                                     NotLoggedDayTemplate="{x:StaticResource NotLoggedDayTemplate}"
                                                     EmptyDayTemplate="{x:StaticResource EmptyDayTemplate}"
                                                     LockedReportTemplate="{x:StaticResource LockedReportTemplate}"
+                                                    UnlockedReportTemplate="{x:StaticResource UnlockedReportTemplate}"
                                                     DayNameTemplate="{x:StaticResource DayNameTemplate}"/>
             
         </ResourceDictionary>

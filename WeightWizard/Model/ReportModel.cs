@@ -12,4 +12,6 @@ public class ReportModel : ICalenderItems
     
     public bool IsLogged { get; set; }
     public bool Unlocked { get; set; }
+
+    public string ClickAble { get; set; }
 }

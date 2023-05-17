@@ -66,6 +66,8 @@ namespace WeightWizard.ViewModel
             // Get the number of days before the first day of the month
             var daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
 
+            var LoggedDays = 0;
+
             // Add day names to the collection
             for (var i = 1; i < 8; i++)
             {
@@ -105,6 +107,7 @@ namespace WeightWizard.ViewModel
                             Steps = dailyDataObj.Steps,
                             MorningWeight = dailyDataObj.MorningWeight
                         });
+                        LoggedDays++;
                     }
                     else
                     {
