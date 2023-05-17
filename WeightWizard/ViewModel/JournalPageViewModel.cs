@@ -120,7 +120,19 @@ namespace WeightWizard.ViewModel
                     // Add a report model after every 7 days
                     if ((day + daysBeforeMonth) % 7 == 0)
                     {
-                        Dates.Add(new ReportModel());
+                        if (LoggedDays > 4)
+                        {
+                            Dates.Add(new ReportModel
+                            {
+                                Unlocked = true
+                            });
+                            LoggedDays = 0;
+                        }
+                        else
+                        {
+                            Dates.Add(new ReportModel());
+                            LoggedDays = 0;
+                        }
                     }
                 }
                 catch (Exception ex)

@@ -65,6 +65,11 @@
                         Text=" "
                         FontSize="14"
                         HorizontalTextAlignment="Center"/>
+                    <Image
+                        Source="report_empty.png"
+                        HeightRequest="40"
+                        WidthRequest="60"
+                        Scale="8"/>
                 </VerticalStackLayout>
             </DataTemplate>
             
@@ -78,7 +83,7 @@
                         Source="report.png"
                         HeightRequest="40"
                         WidthRequest="60"
-                        Scale="0.7"/>
+                        Scale="0.9"/>
                 </VerticalStackLayout>
             </DataTemplate>
             
