@@ -58,13 +58,33 @@ namespace WeightWizard.ViewModel
             var jsonLoginData = JsonConvert.SerializeObject(loginData);
             var requestContent = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/Users/login", requestContent);
+            try
+            {
+                var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/Users/login", requestContent);
+        
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Handle unsuccessful response here, e.g., display error message or take appropriate action
+                    return false;
+                }
 
-            var responseContent = await response.Content.ReadAsStringAsync();
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrEmpty(responseContent)) return false;
-            await SecureStorage.SetAsync("jwt_token", responseContent);
-            return true;
+                if (string.IsNullOrEmpty(responseContent))
+                {
+                    // Handle empty response content here, e.g., display error message or take appropriate action
+                    return false;
+                }
+
+                await SecureStorage.Default.SetAsync("jwt_token", responseContent);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions here, e.g., display error message or take appropriate action
+                return false;
+            }
         }
+
     }
 }
