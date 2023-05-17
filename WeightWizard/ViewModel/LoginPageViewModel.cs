@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Text;
+using Syncfusion.Maui.Core.Converters;
+using WeightWizard.Model.DTOs;
 
 
 namespace WeightWizard.ViewModel
@@ -48,19 +50,22 @@ namespace WeightWizard.ViewModel
 
         private async Task<bool> LoginAsync(string email, string password)
         {
-            var loginData = new Dictionary<string, string>
+            var loginData = new LoginDto
             {
-                { "email", email },
-                { "password", password }
+                Username = email,
+                Password = password
             };
 
             var jsonLoginData = JsonConvert.SerializeObject(loginData);
-
             var requestContent = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("https://your-backend-server.com/api/login", requestContent);
+            var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/Users/login", requestContent);
 
-            return response.IsSuccessStatusCode;
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrEmpty(responseContent)) return false;
+            await SecureStorage.SetAsync("jwt_token", responseContent);
+            return true;
         }
     }
 }
