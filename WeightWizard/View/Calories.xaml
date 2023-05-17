@@ -1,15 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:WeightWizard.Model"
-             xmlns:local="clr-namespace:WeightWizard"
+             x:Class="WeightWizard.View.Calories"
              xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
-             xmlns:drawables="clr-namespace:WeightWizard.Model.Drawables"
-             x:Class="WeightWizard.View.TrendPage"
-             Background="Blue">
-    
-    
+             Title="Calories">
     <ScrollView>
         <ScrollView.Resources>
             <Style TargetType="Label">
@@ -29,7 +23,7 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="White line is weight, black is steps and red is calories. Press the interval you wish to see"
+                Text="Weights is white line, black is either steps or calories"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="15"
                 HorizontalOptions="Center" />
@@ -40,19 +34,19 @@
                 Spacing="10">
 
                 <Button
-                Text="All"
+                Text="steps"
                 SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding SeeAllCommand}"/>
+                    Command="{Binding SeeStepsCommand}"/>
 
                 <Button
-                Text="3 months"
+                Text="kcal"
                 SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding SeeThreeMonthsCommand}"/>
+                    Command="{Binding SeeCaloriesCommand}"/>
 
                 <Button
-                Text="1 month"
+                Text="Weight only"
                 SemanticProperties.Hint="Saves logged data from current day"
-                    Command="{Binding SeeMonthCommand}"/>
+                    Command="{Binding SeeWonlyCommand}"/>
 
             </HorizontalStackLayout>
 
@@ -62,21 +56,19 @@
 
             <chart:SfCartesianChart
                 HorizontalOptions="Center">
-
+                <chart:SfCartesianChart.ZoomPanBehavior>
+                    <chart:ChartZoomPanBehavior EnablePinchZooming="True"/>
+                </chart:SfCartesianChart.ZoomPanBehavior>
                 <chart:SfCartesianChart.XAxes>
                     <chart:CategoryAxis/>
                 </chart:SfCartesianChart.XAxes>
-
                 <chart:SfCartesianChart.YAxes>
-                    <chart:NumericalAxis Name="PrimaryY" IsVisible="False" ShowMajorGridLines="True"/>
-                    <chart:NumericalAxis ShowMajorGridLines="False" Name="SecondaryY" IsVisible="False"/>
-                    <chart:NumericalAxis Name="TertiaryY" IsVisible="False" ShowMajorGridLines="False"/>
+                    <chart:NumericalAxis Name="PrimaryY"/>
+                    <chart:NumericalAxis CrossesAt="{Static x:Double.MaxValue}" Name="SecondaryY"/>
+                    <chart:NumericalAxis CrossesAt="{Static x:Double.MaxValue}" Name="TertiaryY"/>
                 </chart:SfCartesianChart.YAxes>
 
-                
-                
-
-                    <chart:FastLineSeries ItemsSource="{Binding Data}"
+                <chart:FastLineSeries ItemsSource="{Binding Data}"
                         XBindingPath="Date"
                         YBindingPath="Weight"
                         YAxisName="PrimaryY"
@@ -105,11 +97,28 @@
 
 
 
-            
+            <HorizontalStackLayout
+                Spacing="25"
+                Padding="30,0"
+                HorizontalOptions="Center">
+
+
+                <Button
+                Text="3 months"
+                SemanticProperties.Hint="Saves logged data from current day"
+                    Command="{Binding AddWeights90Command}"/>
+
+                <Button
+                Text="12 Months"
+                SemanticProperties.Hint="Saves logged data from current day"
+                    Command="{Binding AddWeights360Command}"/>
+
+
+
+            </HorizontalStackLayout>
 
 
 
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
