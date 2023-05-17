@@ -55,7 +55,7 @@ namespace WeightWizard.ViewModel
             try
             {
                 var logDataDto = new DailyDataDto();
-
+                
                 logDataDto.UserId = userId;
                 logDataDto.MorningWeight = MorningWeight;
                 logDataDto.CalorieIntake = DailyCalorieIntake;
