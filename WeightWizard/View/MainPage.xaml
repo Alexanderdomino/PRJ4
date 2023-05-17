@@ -29,7 +29,8 @@
             
             <DatePicker
                 HorizontalOptions="Center"
-                FontSize="20"/>
+                FontSize="20"
+                Date="{Binding SelectedDate}"/>
  
             <Label
                 Text="Weight"
@@ -39,7 +40,8 @@
             
             <Entry
                 Background="White"
-                Keyboard="Numeric"/>
+                Keyboard="Numeric"
+                Text="{Binding MorningWeight}"/>
 
             <Label
                 Text="Calories"
@@ -49,7 +51,8 @@
 
             <Entry
                 Background="White"
-                Keyboard="Numeric"/>
+                Keyboard="Numeric"
+                Text="{Binding DailyCalorieIntake}"/>
             
             <Label
                 Text="Steps"
@@ -59,7 +62,8 @@
 
             <Entry
                 Background="White"
-                Keyboard="Numeric"/>
+                Keyboard="Numeric"
+                Text="{Binding Steps}"/>
 
             <Button
                 BackgroundColor="WhiteSmoke"
@@ -67,7 +71,8 @@
                 x:Name="SaveBtn"
                 Text="Save"
                 SemanticProperties.Hint="Saves logged data from current day"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                Command="{Binding LogDataCommand}"/>
 
         </VerticalStackLayout>
     </ScrollView>
