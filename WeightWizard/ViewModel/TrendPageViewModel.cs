@@ -14,7 +14,9 @@ using System.Threading.Tasks;
 using System.Windows.Markup;
 using WeightWizard.Model;
 using WeightWizard.Model.Drawables;
+using WeightWizard.Model.DTOs;
 using WeightWizard.View;
+using static Microsoft.Maui.Controls.Internals.Profile;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 //using WeightWizard.View.WeightWizard;
 
@@ -28,7 +30,8 @@ namespace WeightWizard.ViewModel
 
         public ObservableCollection<weightModel> webdata;
 
-
+        //HttpClient for getting daily data
+        private readonly HttpClient _httpClient = new HttpClient();
 
         public enum ShowStates
         {
@@ -39,18 +42,19 @@ namespace WeightWizard.ViewModel
 
         public ShowStates state;
 
-
         public TrendPageViewModel()
         {
             Data = new ObservableCollection<weightModel>();
 
             webdata = new ObservableCollection<weightModel>();
 
-            state = ShowStates.All;
+            GetWebDataAsync();
 
-            getData();
+            state = ShowStates.Month;
 
             ShowData();
+
+            
         }
 
         public void getData()
@@ -61,7 +65,7 @@ namespace WeightWizard.ViewModel
             int calories = 2500;
             Random ran = new Random();
 
-            for (DateTime date = today; date <= today.AddDays(365); date = date.AddDays(1))
+            for (DateTime date = today.AddDays(-365); date <= DateTime.Now.Date; date = date.AddDays(1))
             {
 
                 webdata.Add(new weightModel(date.Date, weight, steps, calories));
@@ -78,6 +82,32 @@ namespace WeightWizard.ViewModel
                     calories -= 10;
                 }
             }
+        }
+
+        private async void GetWebDataAsync()
+        {
+
+            
+
+            for (DateTime date = DateTime.Now.AddDays(-365); date <= DateTime.Now; date = date.AddDays(1))
+            {
+                var dailyDataObj = await GetDailyDataAsync(1, date);
+                if (dailyDataObj != null)
+                {
+                    webdata.Add(new weightModel(
+                        date.Date,
+                        (double)dailyDataObj.MorningWeight,
+                        dailyDataObj.Steps,
+                        dailyDataObj.CalorieIntake));
+                
+                
+                }
+
+               
+            }
+           
+
+            
         }
 
 
@@ -144,7 +174,7 @@ namespace WeightWizard.ViewModel
                 case ShowStates.ThreeMonths:
                     Data.Clear();
                     foreach (var item in webdata)
-                        if (item.Date <= DateTime.Now.AddDays(90))
+                        if (item.Date >= DateTime.Now.AddDays(-90))
                         {
                             Data.Add(item);
                         }
@@ -152,7 +182,7 @@ namespace WeightWizard.ViewModel
                 case ShowStates.Month:
                     Data.Clear();
                     foreach (var item in webdata)
-                        if (item.Date <= DateTime.Now.AddDays(7))
+                        if (item.Date >= DateTime.Now.AddDays(-30))
                         {
                             Data.Add(item);
                         }
@@ -163,38 +193,6 @@ namespace WeightWizard.ViewModel
 
 
         }
-
-        [RelayCommand]
-        public void AddWeights360()
-        {
-            Data.Clear();
-            var today = DateTime.Now;
-            double weight = 70;
-            int steps = 10000;
-            int calories = 2500;
-            Random ran = new Random();
-            for (DateTime date = today; date <= today.AddDays(360); date = date.AddDays(1))
-            {
-
-                Data.Add(new weightModel(date.Date, weight, steps, calories));
-                if (ran.NextDouble() < 0.5)
-                {
-                    weight += ran.NextDouble();
-                    calories += 50;
-                    steps -= 600;
-                }
-                else
-                {
-                    weight -= ran.NextDouble();
-                    calories -= 50;
-                    steps += 600;
-                }
-
-            }
-        }
-
-
-
 
     }
 }

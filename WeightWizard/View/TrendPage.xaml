@@ -29,7 +29,7 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="White line is weight, black is steps and red is calories"
+                Text="White line is weight, black is steps and red is calories. Press the interval you wish to see"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="15"
                 HorizontalOptions="Center" />
