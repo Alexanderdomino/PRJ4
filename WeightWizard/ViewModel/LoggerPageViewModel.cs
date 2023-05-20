@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices.JavaScript;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -14,10 +15,14 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] private int _dailyCalorieIntake;
         
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(GetExistingDailyDataCommand))]
         private DateTime _selectedDate = DateTime.Today;
         
         private readonly HttpClient _httpClient = new();
+
+        partial void OnSelectedDateChanged(DateTime value)
+        {
+            GetExistingDailyDataAsync();
+        }
 
         [RelayCommand]
         public async void LogData()
@@ -33,7 +38,32 @@ namespace WeightWizard.ViewModel
             else
             {
                 var isLogged = await CheckIfDayIsEmptyAsync(1, SelectedDate);
-                if (isLogged) return;
+                if (isLogged)
+                {
+                    try
+                    {
+                        DailyDataDto dailyDataDto = new()
+                        {
+                            MorningWeight = MorningWeight,
+                            CalorieIntake = DailyCalorieIntake,
+                            Steps = Steps
+                        };
+
+                        try {
+                            await UpdateUserAsync(1, SelectedDate, dailyDataDto);
+                            Console.WriteLine("Daily Data updated successfully");
+                        } catch (HttpRequestException ex) {
+                            Console.WriteLine($"Error updating Daily Data: {ex.Message}");
+                        } catch (Exception ex) {
+                            Console.WriteLine($"Unexpected error: {ex.Message}");
+                        }
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        Console.WriteLine($"Error connecting to server: {ex.Message}");
+                    }
+                    return;
+                }
                 try
                 {
                     var postSuccessful = await LogAsync(1, 100);
@@ -47,14 +77,19 @@ namespace WeightWizard.ViewModel
                 }
             }
         }
-
-        [RelayCommand]
+        
         public async Task GetExistingDailyDataAsync()
         {
             var token = await SecureStorage.GetAsync("jwt_token");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             var isLogged = await CheckIfDayIsEmptyAsync(1, SelectedDate);
-            if (!isLogged) return;
+            if (!isLogged)
+            {
+                MorningWeight = 0;
+                Steps = 0;
+                DailyCalorieIntake = 0;
+                return;
+            }
             try
             {
                 var response = await GetDailyDataAsync(1, SelectedDate);
