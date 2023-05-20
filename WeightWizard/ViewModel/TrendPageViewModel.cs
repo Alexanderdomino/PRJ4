@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -32,6 +33,7 @@ namespace WeightWizard.ViewModel
 
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new HttpClient();
+        private readonly string _token = await SecureStorage.GetAsync("jwt_token");
 
         public enum ShowStates
         {
@@ -86,9 +88,8 @@ namespace WeightWizard.ViewModel
 
         private async void GetWebDataAsync()
         {
-
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
             
-
             for (DateTime date = DateTime.Now.AddDays(-365); date <= DateTime.Now; date = date.AddDays(1))
             {
                 var dailyDataObj = await GetDailyDataAsync(1, date);
