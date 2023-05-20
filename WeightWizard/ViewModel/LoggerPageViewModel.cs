@@ -9,10 +9,8 @@ namespace WeightWizard.ViewModel
 {
     public partial class LoggerPageViewModel : ObservableObject
     {
-        //[ObservableProperty] private int _userId;
         [ObservableProperty] private decimal _morningWeight;
         [ObservableProperty] private int _steps;
-        //[ObservableProperty] private double _desiredWeight;
         [ObservableProperty] private int _dailyCalorieIntake;
         [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
         
@@ -37,15 +35,8 @@ namespace WeightWizard.ViewModel
                 {
                     var postSuccessful = await LogAsync(1, 100);
 
-                    if (postSuccessful)
-                    {
-                        //display data logged popup
-                        Console.WriteLine("Data Successfully Logged");
-                    }
-                    else
-                    {
-                        Console.WriteLine("error during logging");
-                    }
+                    //display data logged popup
+                    Console.WriteLine(postSuccessful ? "Data Successfully Logged" : "error during logging");
                 }
                 catch (HttpRequestException ex)
                 {
@@ -113,17 +104,16 @@ namespace WeightWizard.ViewModel
             }
         }
         
-        public static async Task UpdateUserAsync(int userId, DateTime date, DailyDataDto dailyData) {
-            var client = new HttpClient();
+        public async Task UpdateUserAsync(int userId, DateTime date, DailyDataDto dailyData) {
             var formattedDate = date.ToString("yyyy-MM-dd");
             
             var uri = new Uri($"https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
                               formattedDate + "T00%3A00%3A00");
     
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(dailyData);
+            var json = JsonConvert.SerializeObject(dailyData);
             var content = new StringContent(json, Encoding.UTF8, "application/json-patch+json");
     
-            var response = await client.PatchAsync(uri, content);
+            var response = await _httpClient.PatchAsync(uri, content);
             response.EnsureSuccessStatusCode();
         }
     }
