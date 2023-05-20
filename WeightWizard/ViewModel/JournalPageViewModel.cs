@@ -27,8 +27,7 @@ namespace WeightWizard.ViewModel
 
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new();
-        private readonly string _token = await SecureStorage.GetAsync("jwt_token");
-        
+
         partial void OnSelectedMonthChanged(DateTime SelectedMonth)
         {
             Dates.Clear();
@@ -51,7 +50,8 @@ namespace WeightWizard.ViewModel
         {
             _isLoading = true;
             
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
+            var token = await SecureStorage.GetAsync("jwt_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             
             // Check if there is a successful connection to the server
             var isConnected = await CheckServerConnectionAsync();

@@ -13,12 +13,11 @@ namespace WeightWizard.ViewModel
         [ObservableProperty]
         public ObservableCollection<weightModel> data;
 
-
+        [ObservableProperty]
         public ObservableCollection<weightModel> webdata;
 
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new();
-        private readonly string _token = await SecureStorage.GetAsync("jwt_token");
 
         public enum ShowStates
         {
@@ -73,7 +72,8 @@ namespace WeightWizard.ViewModel
 
         private async void GetWebDataAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
+            var token = await SecureStorage.GetAsync("jwt_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             
             for (DateTime date = DateTime.Now.AddDays(-365); date <= DateTime.Now; date = date.AddDays(1))
             {

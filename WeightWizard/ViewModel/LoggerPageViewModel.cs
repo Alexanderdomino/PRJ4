@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices.JavaScript;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -12,15 +13,22 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] private decimal _morningWeight;
         [ObservableProperty] private int _steps;
         [ObservableProperty] private int _dailyCalorieIntake;
-        [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
+        
+        [ObservableProperty]
+        private DateTime _selectedDate = DateTime.Today;
         
         private readonly HttpClient _httpClient = new();
-        private readonly string _token = await SecureStorage.GetAsync("jwt_token");
+
+        partial void OnSelectedDateChanged(DateTime value)
+        {
+            GetExistingDailyDataAsync();
+        }
 
         [RelayCommand]
         public async void LogData()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
+            var token = await SecureStorage.GetAsync("jwt_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             
             Console.WriteLine("executing post logdata");
             if (MorningWeight<=0 ||Steps<=0||DailyCalorieIntake<=0)
@@ -30,7 +38,32 @@ namespace WeightWizard.ViewModel
             else
             {
                 var isLogged = await CheckIfDayIsEmptyAsync(1, SelectedDate);
-                if (isLogged) return;
+                if (isLogged)
+                {
+                    try
+                    {
+                        DailyDataDto dailyDataDto = new()
+                        {
+                            MorningWeight = MorningWeight,
+                            CalorieIntake = DailyCalorieIntake,
+                            Steps = Steps
+                        };
+
+                        try {
+                            await UpdateUserAsync(1, SelectedDate, dailyDataDto);
+                            Console.WriteLine("Daily Data updated successfully");
+                        } catch (HttpRequestException ex) {
+                            Console.WriteLine($"Error updating Daily Data: {ex.Message}");
+                        } catch (Exception ex) {
+                            Console.WriteLine($"Unexpected error: {ex.Message}");
+                        }
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        Console.WriteLine($"Error connecting to server: {ex.Message}");
+                    }
+                    return;
+                }
                 try
                 {
                     var postSuccessful = await LogAsync(1, 100);
@@ -42,6 +75,32 @@ namespace WeightWizard.ViewModel
                 {
                     Console.WriteLine($"Error connecting to server: {ex.Message}");
                 }
+            }
+        }
+        
+        public async Task GetExistingDailyDataAsync()
+        {
+            var token = await SecureStorage.GetAsync("jwt_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            var isLogged = await CheckIfDayIsEmptyAsync(1, SelectedDate);
+            if (!isLogged)
+            {
+                MorningWeight = 0;
+                Steps = 0;
+                DailyCalorieIntake = 0;
+                return;
+            }
+            try
+            {
+                var response = await GetDailyDataAsync(1, SelectedDate);
+
+                MorningWeight = response.MorningWeight;
+                Steps = response.Steps;
+                DailyCalorieIntake = response.CalorieIntake;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something bad happened: {ex.Message}");
             }
         }
 
@@ -88,8 +147,7 @@ namespace WeightWizard.ViewModel
             try
             {
                 var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" +
-                                                          userId + "/" +
-                                                          formattedDate + "T00%3A00%3A00");
+                                                          userId + "/" + formattedDate + "T00%3A00%3A00");
                 return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
@@ -115,6 +173,29 @@ namespace WeightWizard.ViewModel
     
             var response = await _httpClient.PatchAsync(uri, content);
             response.EnsureSuccessStatusCode();
+        }
+        
+        private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
+        {
+            var formattedDate = date.ToString("yyyy-MM-dd");
+            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+                                                      formattedDate + "T00%3A00%3A00");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+                
+                // Read the content as a string
+                var result = await content.ReadAsStringAsync();
+            
+                // Deserialize the JSON content into a strongly-typed object
+                var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
+
+                return dailyDataDto;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

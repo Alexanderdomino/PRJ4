@@ -18,14 +18,14 @@ public partial class ProfilePageViewModel: ObservableObject
     
     //HttpClient for patching goal weight
     private readonly HttpClient _httpClient = new();
-    private readonly string _token = await SecureStorage.GetAsync("jwt_token");
     
     // Command to handle selection change
     [RelayCommand]
     // ReSharper disable once MemberCanBePrivate.Global
     public async void SaveChanges()
     {
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
+        var token = await SecureStorage.GetAsync("jwt_token");
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
         
         UserDto user = new()
         {
