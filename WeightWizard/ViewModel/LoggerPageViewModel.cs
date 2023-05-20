@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -15,11 +16,14 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] private int _dailyCalorieIntake;
         [ObservableProperty] private DateTime _selectedDate = DateTime.Today;
         
-        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly HttpClient _httpClient = new();
+        private readonly string _token = await SecureStorage.GetAsync("jwt_token");
 
         [RelayCommand]
         public async void LogData()
         {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
+            
             Console.WriteLine("executing post logdata");
             if (MorningWeight<=0 ||Steps<=0||DailyCalorieIntake<=0)
             {

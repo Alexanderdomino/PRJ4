@@ -1,24 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Net.Http;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
+using System.Net.Http.Headers;
 using WeightWizard.Model;
-using WeightWizard.Model.Drawables;
 using WeightWizard.Model.DTOs;
-using WeightWizard.View;
-using static Microsoft.Maui.Controls.Internals.Profile;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-//using WeightWizard.View.WeightWizard;
 
 namespace WeightWizard.ViewModel
 {
@@ -31,7 +17,8 @@ namespace WeightWizard.ViewModel
         public ObservableCollection<weightModel> webdata;
 
         //HttpClient for getting daily data
-        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly HttpClient _httpClient = new();
+        private readonly string _token = await SecureStorage.GetAsync("jwt_token");
 
         public enum ShowStates
         {
@@ -86,9 +73,8 @@ namespace WeightWizard.ViewModel
 
         private async void GetWebDataAsync()
         {
-
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
             
-
             for (DateTime date = DateTime.Now.AddDays(-365); date <= DateTime.Now; date = date.AddDays(1))
             {
                 var dailyDataObj = await GetDailyDataAsync(1, date);
@@ -102,12 +88,7 @@ namespace WeightWizard.ViewModel
                 
                 
                 }
-
-               
             }
-           
-
-            
         }
 
 
@@ -136,7 +117,6 @@ namespace WeightWizard.ViewModel
 
 
         [RelayCommand]
-
         public void SeeThreeMonths()
         {
             state = ShowStates.ThreeMonths;
@@ -144,7 +124,6 @@ namespace WeightWizard.ViewModel
         }
 
         [RelayCommand]
-
         public void SeeAll()
         {
             state = ShowStates.All;
@@ -163,8 +142,6 @@ namespace WeightWizard.ViewModel
         [RelayCommand]
         public void ShowData()
         {
-
-
             switch (state)
             {
                 case ShowStates.All:
@@ -190,9 +167,6 @@ namespace WeightWizard.ViewModel
                 default:
                     break;
             }
-
-
         }
-
     }
 }

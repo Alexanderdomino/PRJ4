@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -16,16 +17,20 @@ public partial class ProfilePageViewModel: ObservableObject
     private decimal _desiredWeight = 0;
     
     //HttpClient for patching goal weight
-    private readonly HttpClient _httpClient = new HttpClient();
+    private readonly HttpClient _httpClient = new();
+    private readonly string _token = await SecureStorage.GetAsync("jwt_token");
     
     // Command to handle selection change
     [RelayCommand]
     // ReSharper disable once MemberCanBePrivate.Global
     public async void SaveChanges()
     {
-        UserDto user = new();
-
-        user.DesiredWeight = DesiredWeight;
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _token);
+        
+        UserDto user = new()
+        {
+            DesiredWeight = DesiredWeight
+        };
 
         try {
             // Do something with goal weight...
@@ -54,15 +59,14 @@ public partial class ProfilePageViewModel: ObservableObject
         };
         await LocalNotificationCenter.Current.Show(request);
     }
-    
-    public static async Task UpdateUserAsync(int userId, UserDto updatedUser) {
-        var client = new HttpClient();
+
+    private async Task UpdateUserAsync(int userId, UserDto updatedUser) {
         var uri = new Uri($"https://prj4backend.azurewebsites.net/api/Users/{userId}");
     
-        var json = Newtonsoft.Json.JsonConvert.SerializeObject(updatedUser);
+        var json = JsonConvert.SerializeObject(updatedUser);
         var content = new StringContent(json, Encoding.UTF8, "application/json-patch+json");
     
-        var response = await client.PatchAsync(uri, content);
+        var response = await _httpClient.PatchAsync(uri, content);
         response.EnsureSuccessStatusCode();
     }
 }
