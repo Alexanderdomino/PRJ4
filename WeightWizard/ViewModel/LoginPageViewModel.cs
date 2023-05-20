@@ -40,7 +40,7 @@ namespace WeightWizard.ViewModel
                         Console.WriteLine("Invalid username or password");
                     }
                 }
-                catch (HttpRequestException ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"Error connecting to server: {ex.Message}");
                 }
