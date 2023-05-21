@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,6 +20,22 @@ public partial class ProfilePageViewModel: ObservableObject
     //HttpClient for patching goal weight
     private readonly HttpClient _httpClient = new();
     
+    private int _userid;
+        
+    public void DecodeJwtToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = tokenHandler.ReadJwtToken(token);
+
+        // Access the claims from the decoded token
+        var claims = jwtToken.Claims;
+
+        //Get the userid claim
+        var nameidentifier = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+
+        if (nameidentifier != null) _userid = int.Parse(nameidentifier);
+    }
+    
     // Command to handle selection change
     [RelayCommand]
     // ReSharper disable once MemberCanBePrivate.Global
@@ -34,7 +51,7 @@ public partial class ProfilePageViewModel: ObservableObject
 
         try {
             // Do something with goal weight...
-            await UpdateUserAsync(1, user);
+            await UpdateUserAsync(_userid, user);
             Console.WriteLine("User updated successfully");
         } catch (HttpRequestException ex) {
             Console.WriteLine($"Error updating user: {ex.Message}");
