@@ -69,4 +69,11 @@ public partial class ProfilePageViewModel: ObservableObject
         var response = await _httpClient.PatchAsync(uri, content);
         response.EnsureSuccessStatusCode();
     }
+
+    [RelayCommand]
+    public static async void SignOut()
+    {
+        SecureStorage.Default.RemoveAll();
+        await Shell.Current.GoToAsync("///login");
+    }
 }
