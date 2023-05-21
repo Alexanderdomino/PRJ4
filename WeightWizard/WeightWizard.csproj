@@ -11,7 +11,7 @@
         <ApplicationTitle>WeightWizard</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.weightwizard</ApplicationId>
+        <ApplicationId>com.weightwizard.development</ApplicationId>
         <ApplicationIdGuid>5882C5FF-AB3C-453B-A29C-D1FB26F60E73</ApplicationIdGuid>
 
         <!-- Versions -->
