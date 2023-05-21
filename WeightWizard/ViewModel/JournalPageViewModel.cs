@@ -69,6 +69,7 @@ namespace WeightWizard.ViewModel
             
             var token = await SecureStorage.GetAsync("jwt_token");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            DecodeJwtToken(token);
             
             // Check if there is a successful connection to the server
             var isConnected = await CheckServerConnectionAsync();

@@ -50,6 +50,7 @@ namespace WeightWizard.ViewModel
         {
             var token = await SecureStorage.GetAsync("jwt_token");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            DecodeJwtToken(token);
             
             Console.WriteLine("executing post logdata");
             if (MorningWeight<=0 ||Steps<=0||DailyCalorieIntake<=0)
@@ -104,6 +105,8 @@ namespace WeightWizard.ViewModel
         {
             var token = await SecureStorage.GetAsync("jwt_token");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            DecodeJwtToken(token);
+            
             var isLogged = await CheckIfDayIsEmptyAsync(_userid, SelectedDate);
             if (!isLogged)
             {

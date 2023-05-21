@@ -43,6 +43,7 @@ public partial class ProfilePageViewModel: ObservableObject
     {
         var token = await SecureStorage.GetAsync("jwt_token");
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+        DecodeJwtToken(token);
         
         UserDto user = new()
         {

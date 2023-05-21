@@ -89,6 +89,7 @@ namespace WeightWizard.ViewModel
         {
             var token = await SecureStorage.GetAsync("jwt_token");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            DecodeJwtToken(token);
             
             for (DateTime date = DateTime.Now.AddDays(-365); date <= DateTime.Now; date = date.AddDays(1))
             {
