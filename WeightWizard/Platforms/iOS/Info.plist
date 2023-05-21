@@ -30,5 +30,11 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.weightwizard.development</string>
+	<key>AppIdentifierPrefix</key>
+	<string>9CPZX642YC</string>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
+	</array>
 </dict>
 </plist>

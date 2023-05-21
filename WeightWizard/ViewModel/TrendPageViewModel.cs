@@ -32,7 +32,7 @@ namespace WeightWizard.ViewModel
         {
             Data = new ObservableCollection<weightModel>();
 
-            webdata = new ObservableCollection<weightModel>();
+            Webdata = new ObservableCollection<weightModel>();
 
             GetWebDataAsync();
 
@@ -54,7 +54,7 @@ namespace WeightWizard.ViewModel
             for (DateTime date = today.AddDays(-365); date <= DateTime.Now.Date; date = date.AddDays(1))
             {
 
-                webdata.Add(new weightModel(date.Date, weight, steps, calories));
+                Webdata.Add(new weightModel(date.Date, weight, steps, calories));
                 if (ran.NextDouble() < 0.5)
                 {
                     weight += ran.NextDouble();
@@ -80,7 +80,7 @@ namespace WeightWizard.ViewModel
                 var dailyDataObj = await GetDailyDataAsync(1, date);
                 if (dailyDataObj != null)
                 {
-                    webdata.Add(new weightModel(
+                    Webdata.Add(new weightModel(
                         date.Date,
                         (double)dailyDataObj.MorningWeight,
                         dailyDataObj.Steps,
@@ -146,11 +146,11 @@ namespace WeightWizard.ViewModel
             {
                 case ShowStates.All:
                     Data.Clear();
-                    Data = new ObservableCollection<weightModel>(webdata);
+                    Data = new ObservableCollection<weightModel>(Webdata);
                     break;
                 case ShowStates.ThreeMonths:
                     Data.Clear();
-                    foreach (var item in webdata)
+                    foreach (var item in Webdata)
                         if (item.Date >= DateTime.Now.AddDays(-90))
                         {
                             Data.Add(item);
@@ -158,7 +158,7 @@ namespace WeightWizard.ViewModel
                     break;
                 case ShowStates.Month:
                     Data.Clear();
-                    foreach (var item in webdata)
+                    foreach (var item in Webdata)
                         if (item.Date >= DateTime.Now.AddDays(-30))
                         {
                             Data.Add(item);

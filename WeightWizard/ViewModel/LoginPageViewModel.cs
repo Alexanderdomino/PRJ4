@@ -82,6 +82,7 @@ namespace WeightWizard.ViewModel
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Error");
                 // Handle exceptions here, e.g., display error message or take appropriate action
                 return false;
             }
