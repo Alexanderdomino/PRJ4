@@ -25,6 +25,8 @@ namespace WeightWizard.ViewModel
 
         private bool _isLoading = false;
 
+        private List<CalenderModel> ReportDays = new();
+
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new();
 
@@ -112,6 +114,32 @@ namespace WeightWizard.ViewModel
                             MorningWeight = dailyDataObj.MorningWeight
                         });
                         LoggedDays++;
+
+                        if(LoggedDays==1)
+                        {
+                            ReportDays.Add(new CalenderModel
+                            {
+                                IsLogged = true,
+                                Date = dailyDataObj.Date,
+                                CalorieIntake = dailyDataObj.CalorieIntake,
+                                Steps = dailyDataObj.Steps,
+                                MorningWeight = dailyDataObj.MorningWeight
+
+                            });
+                        }
+
+                        else if (LoggedDays>4)
+                        {
+                            ReportDays.Add(new CalenderModel
+                            {
+                                IsLogged = true,
+                                Date = dailyDataObj.Date,
+                                CalorieIntake = dailyDataObj.CalorieIntake,
+                                Steps = dailyDataObj.Steps,
+                                MorningWeight = dailyDataObj.MorningWeight
+
+                            });
+                        }
                     }
                     else
                     {
@@ -128,9 +156,12 @@ namespace WeightWizard.ViewModel
                         {
                             Dates.Add(new ReportModel
                             {
-                                Unlocked = true
+                                Unlocked = true,
+                                ReportDays = new List<CalenderModel>(ReportDays)
+
                             });
                             LoggedDays = 0;
+                            
                         }
                         else
                         {
@@ -159,7 +190,7 @@ namespace WeightWizard.ViewModel
             }
             else if (SelectedItem is ReportModel)
             {
-                MopupService.Instance.PushAsync(new ReportPopupPage());
+                MopupService.Instance.PushAsync(new ReportPopupPage(SelectedItem));
             }
         }
 
