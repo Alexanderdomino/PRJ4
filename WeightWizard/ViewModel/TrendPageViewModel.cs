@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using WeightWizard.Model;
 using WeightWizard.Model.DTOs;
@@ -18,6 +19,22 @@ namespace WeightWizard.ViewModel
 
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new();
+        
+        private int _userid;
+        
+        public void DecodeJwtToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            // Access the claims from the decoded token
+            var claims = jwtToken.Claims;
+
+            //Get the userid claim
+            var nameidentifier = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+
+            if (nameidentifier != null) _userid = int.Parse(nameidentifier);
+        }
 
         public enum ShowStates
         {
@@ -39,8 +56,6 @@ namespace WeightWizard.ViewModel
             state = ShowStates.Month;
 
             ShowData();
-
-            
         }
 
         public void getData()
@@ -77,7 +92,7 @@ namespace WeightWizard.ViewModel
             
             for (DateTime date = DateTime.Now.AddDays(-365); date <= DateTime.Now; date = date.AddDays(1))
             {
-                var dailyDataObj = await GetDailyDataAsync(1, date);
+                var dailyDataObj = await GetDailyDataAsync(_userid, date);
                 if (dailyDataObj != null)
                 {
                     Webdata.Add(new weightModel(
