@@ -23,11 +23,11 @@ public partial class ReportPopupViewModel : ObservableObject
         {
             if(temp.ReportDays.First().MorningWeight<temp.ReportDays.Last().MorningWeight)
             {
-                Weeklyreport = "you gained weight";
+                Weeklyreport = "you gained "+ (temp.ReportDays.Last().MorningWeight-temp.ReportDays.First().MorningWeight) + "kg";
             }
             else if(temp.ReportDays.First().MorningWeight > temp.ReportDays.Last().MorningWeight)
             {
-                Weeklyreport = "you lost weight";
+                Weeklyreport = "you lost "+ (temp.ReportDays.First().MorningWeight - temp.ReportDays.Last().MorningWeight) + " kg";
             }
             else
             {
