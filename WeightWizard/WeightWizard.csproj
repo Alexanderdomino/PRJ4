@@ -11,7 +11,7 @@
         <ApplicationTitle>WeightWizard</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.weightwizard</ApplicationId>
+        <ApplicationId>com.weightwizard.development</ApplicationId>
         <ApplicationIdGuid>5882C5FF-AB3C-453B-A29C-D1FB26F60E73</ApplicationIdGuid>
 
         <!-- Versions -->
@@ -20,6 +20,14 @@
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+      <CodesignResourceRules>Platforms\iOS\Entitlements.plist</CodesignResourceRules>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+      <CodesignResourceRules>Platforms\iOS\Entitlements.plist</CodesignResourceRules>
     </PropertyGroup>
 
     <ItemGroup>
