@@ -31,7 +31,7 @@ public partial class ReportPopupViewModel : ObservableObject
             }
             else
             {
-                Weeklyreport = "There has been no change i weight";
+                Weeklyreport = "There has been no change in weight";
             }
 
         }
