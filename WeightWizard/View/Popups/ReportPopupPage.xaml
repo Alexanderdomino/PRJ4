@@ -34,6 +34,14 @@
                 HorizontalOptions="Center"
                 WidthRequest="220"
                 FontSize="30"/>
+
+                <Label
+                    Text="{Binding Weeklyreport}"
+                    TextColor="Black"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    WidthRequest="150"/>
+
             </VerticalStackLayout>
         </Border>
     </ScrollView>
