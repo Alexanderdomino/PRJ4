@@ -1,9 +1,13 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.InteropServices.JavaScript;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Maui.Storage;
 using WeightWizard.Model.DTOs;
 
 namespace WeightWizard.ViewModel
@@ -18,6 +22,23 @@ namespace WeightWizard.ViewModel
         private DateTime _selectedDate = DateTime.Today;
         
         private readonly HttpClient _httpClient = new();
+        
+        private int _userid;
+        
+        public void DecodeJwtToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            // Access the claims from the decoded token
+            var claims = jwtToken.Claims;
+
+            //Get the userid claim
+            var nameidentifier = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+
+            if (nameidentifier != null) _userid = int.Parse(nameidentifier);
+        }
+
 
         partial void OnSelectedDateChanged(DateTime value)
         {
@@ -34,10 +55,11 @@ namespace WeightWizard.ViewModel
             if (MorningWeight<=0 ||Steps<=0||DailyCalorieIntake<=0)
             {
                 Console.WriteLine("please enter all data");
+                DecodeJwtToken(token);
             }
             else
             {
-                var isLogged = await CheckIfDayIsEmptyAsync(1, SelectedDate);
+                var isLogged = await CheckIfDayIsEmptyAsync(_userid, SelectedDate);
                 if (isLogged)
                 {
                     try
@@ -50,7 +72,7 @@ namespace WeightWizard.ViewModel
                         };
 
                         try {
-                            await UpdateUserAsync(1, SelectedDate, dailyDataDto);
+                            await UpdateUserAsync(_userid, SelectedDate, dailyDataDto);
                             Console.WriteLine("Daily Data updated successfully");
                         } catch (HttpRequestException ex) {
                             Console.WriteLine($"Error updating Daily Data: {ex.Message}");
@@ -82,7 +104,7 @@ namespace WeightWizard.ViewModel
         {
             var token = await SecureStorage.GetAsync("jwt_token");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-            var isLogged = await CheckIfDayIsEmptyAsync(1, SelectedDate);
+            var isLogged = await CheckIfDayIsEmptyAsync(_userid, SelectedDate);
             if (!isLogged)
             {
                 MorningWeight = 0;
@@ -92,7 +114,7 @@ namespace WeightWizard.ViewModel
             }
             try
             {
-                var response = await GetDailyDataAsync(1, SelectedDate);
+                var response = await GetDailyDataAsync(_userid, SelectedDate);
 
                 MorningWeight = response.MorningWeight;
                 Steps = response.Steps;

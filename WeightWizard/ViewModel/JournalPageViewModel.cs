@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -27,6 +28,22 @@ namespace WeightWizard.ViewModel
 
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new();
+        
+        private int _userid;
+        
+        public void DecodeJwtToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            // Access the claims from the decoded token
+            var claims = jwtToken.Claims;
+
+            //Get the userid claim
+            var nameidentifier = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+
+            if (nameidentifier != null) _userid = int.Parse(nameidentifier);
+        }
 
         partial void OnSelectedMonthChanged(DateTime SelectedMonth)
         {
@@ -99,7 +116,7 @@ namespace WeightWizard.ViewModel
                 var dateToGetOn = new DateTime(selectedDate.Year, selectedDate.Month, day);
                 try
                 {
-                    var dailyDataObj = await GetDailyDataAsync(1,dateToGetOn);
+                    var dailyDataObj = await GetDailyDataAsync(_userid,dateToGetOn);
 
                     if (dailyDataObj != null)
                     {
