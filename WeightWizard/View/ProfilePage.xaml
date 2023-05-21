@@ -62,6 +62,10 @@
             <Button
                 Text="Save"
                 Command="{Binding SaveChangesCommand}"/>
+            <Button
+                TextColor="Red"
+                Text="Sign Out"
+                Command="{Binding SignOutCommand}"/>
         </VerticalStackLayout>
     </ScrollView>
 
