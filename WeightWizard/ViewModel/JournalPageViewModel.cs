@@ -1,9 +1,6 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Mopups.Services;
@@ -24,9 +21,9 @@ namespace WeightWizard.ViewModel
         // ReSharper disable once InconsistentNaming
         [ObservableProperty] public DateTime selectedMonth = DateTime.Today;
 
-        private bool _isLoading = false;
+        private bool _isLoading;
 
-        private List<CalenderModel> ReportDays = new();
+        private List<CalenderModel> _reportDays = new();
 
         //HttpClient for getting daily data
         private readonly HttpClient _httpClient = new();
@@ -90,7 +87,7 @@ namespace WeightWizard.ViewModel
             // Get the number of days before the first day of the month
             var daysBeforeMonth = (int)firstDayOfMonth.DayOfWeek - 1;
 
-            var LoggedDays = 0;
+            var loggedDays = 0;
 
             // Add day names to the collection
             for (var i = 1; i < 8; i++)
@@ -131,11 +128,11 @@ namespace WeightWizard.ViewModel
                             Steps = dailyDataObj.Steps,
                             MorningWeight = dailyDataObj.MorningWeight
                         });
-                        LoggedDays++;
+                        loggedDays++;
 
-                        if(LoggedDays==1)
+                        if(loggedDays==1)
                         {
-                            ReportDays.Add(new CalenderModel
+                            _reportDays.Add(new CalenderModel
                             {
                                 IsLogged = true,
                                 Date = dailyDataObj.Date,
@@ -146,9 +143,9 @@ namespace WeightWizard.ViewModel
                             });
                         }
 
-                        else if (LoggedDays>4)
+                        else if (loggedDays>4)
                         {
-                            ReportDays.Add(new CalenderModel
+                            _reportDays.Add(new CalenderModel
                             {
                                 IsLogged = true,
                                 Date = dailyDataObj.Date,
@@ -170,21 +167,21 @@ namespace WeightWizard.ViewModel
                     // Add a report model after every 7 days
                     if ((day + daysBeforeMonth) % 7 == 0)
                     {
-                        if (LoggedDays > 4)
+                        if (loggedDays > 4)
                         {
                             Dates.Add(new ReportModel
                             {
                                 Unlocked = true,
-                                ReportDays = new List<CalenderModel>(ReportDays)
+                                ReportDays = new List<CalenderModel>(_reportDays)
 
                             });
-                            LoggedDays = 0;
+                            loggedDays = 0;
                             
                         }
                         else
                         {
                             Dates.Add(new ReportModel());
-                            LoggedDays = 0;
+                            loggedDays = 0;
                         }
                     }
                 }
@@ -215,7 +212,7 @@ namespace WeightWizard.ViewModel
         [RelayCommand]
         public void MonthSwipeLeft()
         {
-            if (_isLoading == true)
+            if (_isLoading)
             {
                 return;
             }
@@ -225,7 +222,7 @@ namespace WeightWizard.ViewModel
         [RelayCommand]
         public void MonthSwipeRight()
         {
-            if (_isLoading == true)
+            if (_isLoading)
             {
                 return;
             }
