@@ -71,7 +71,7 @@ public partial class ProfilePageViewModel: ObservableObject
             Schedule = new NotificationRequestSchedule()
             {
                 //NotifyTime = DateTime.Now.AddSeconds(5)
-                NotifyTime = DateTime.Today.AddHours(21),
+                NotifyTime = DateTime.Today.AddHours(20),
                 RepeatType = NotificationRepeat.Daily
             }
         };
