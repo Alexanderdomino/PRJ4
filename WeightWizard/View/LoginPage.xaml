@@ -80,10 +80,14 @@
                 Text="Sign In"
                 HorizontalOptions="Center"
                 Command="{Binding SignInCommand}"/>
-            
+
             <HorizontalStackLayout HorizontalOptions="Center">
-                <Label Text="New User?" TextColor="LightGrey" Padding="0,0,10,0"/>
-                <Label Text="Sign Up"/>
+                <Label Text="New User?" TextColor="LightGrey" Padding="0,0,10,0" />
+                <Label Text="Sign Up">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SignUpCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

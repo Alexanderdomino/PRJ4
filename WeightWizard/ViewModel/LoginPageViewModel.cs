@@ -13,7 +13,7 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] private string _username;
         [ObservableProperty] private string _password;
 
-        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly HttpClient _httpClient = new();
 
         [RelayCommand]
         private async void SignIn()
@@ -88,5 +88,10 @@ namespace WeightWizard.ViewModel
             }
         }
 
+        [RelayCommand]
+        private async void SignUp()
+        {
+            await Shell.Current.GoToAsync("///register");
+        }
     }
 }

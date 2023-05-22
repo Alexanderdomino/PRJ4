@@ -14,6 +14,11 @@
         ContentTemplate="{DataTemplate view:LoginPage}"
         Route="login"/>
 
+    <ShellContent
+        Title="SignUn"
+        ContentTemplate="{DataTemplate view:RegisterUserPage}"
+        Route="register"/>
+    
     <TabBar>
         <ShellContent Title="Logger"
                       Icon="log_icon.png"
