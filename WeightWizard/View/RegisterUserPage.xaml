@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightWizard.View.RegisterUserPage">
+    <ScrollView>
+        <ScrollView.Resources>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+            </Style>
+        </ScrollView.Resources>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+            
+            <Label
+                Text="Weight Wizard"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="28"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+                
+            <Label
+                Text="Register New User"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="18"
+                HorizontalOptions="Center" />
+            
+            <Label
+                Text="Username"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"
+                Placeholder="Username"
+                TextColor="Grey"
+                Text="{Binding Username}"/>
+            
+            <Label
+                Text="Password"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"
+                Placeholder="Password"
+                TextColor="Grey"
+                Text="{Binding Password}"
+                IsPassword="True"/>
+            
+            <Label
+                Text="Gender"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"
+                Placeholder="Gender"
+                TextColor="Grey"
+                Text="{Binding Gender}"/>
+            
+            <Label
+                Text="Height"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"
+                Placeholder="Height"
+                TextColor="Grey"
+                Text="{Binding Height}"
+                IsPassword="True"/>
+            
+            <Label
+                Text="Weight"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"
+                Placeholder="Weight"
+                TextColor="Grey"
+                Text="{Binding InitialWeight}"/>
+            
+            <Label
+                Text="Desired Weight"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="14"
+                HorizontalOptions="Center" />
+            
+            <Entry
+                Background="White"
+                Placeholder="Desired Weight"
+                TextColor="Grey"
+                Text="{Binding DesiredWeight}"/>
+            
+            <Button
+                x:Name="RegisterBtn"
+                BackgroundColor="WhiteSmoke"
+                TextColor="Blue"
+                Text="Register"
+                HorizontalOptions="Center"
+                Command="{Binding SignUpCommand}"/>
+            
+            <Button
+                x:Name="CancelBtn"
+                BackgroundColor="WhiteSmoke"
+                TextColor="Red"
+                Text="Cancel"
+                HorizontalOptions="Center"
+                Command="{Binding CancelCommand}"/>
+            
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="New User?" TextColor="LightGrey" Padding="0,0,10,0"/>
+                <Label Text="Sign Up"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
