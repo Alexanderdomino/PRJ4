@@ -74,8 +74,7 @@
                 Background="White"
                 Placeholder="Height"
                 TextColor="Grey"
-                Text="{Binding Height}"
-                IsPassword="True"/>
+                Text="{Binding Height}"/>
             
             <Label
                 Text="Weight"

@@ -26,7 +26,7 @@ public partial class RegisterUserPageViewModel : ObservableObject
 
             if (registerSuccessful)
             {
-                await Shell.Current.GoToAsync("///login");
+                await Shell.Current.GoToAsync("///main");
             }
             else
             {
@@ -78,6 +78,8 @@ public partial class RegisterUserPageViewModel : ObservableObject
                 // Handle empty response content here, e.g., display error message or take appropriate action
                 return false;
             }
+            
+            await SecureStorage.Default.SetAsync("jwt_token", responseContent);
             return true;
         }
         catch (Exception ex)
