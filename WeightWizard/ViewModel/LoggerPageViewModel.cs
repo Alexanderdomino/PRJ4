@@ -89,7 +89,7 @@ namespace WeightWizard.ViewModel
                 }
                 try
                 {
-                    var postSuccessful = await LogAsync(1, 100);
+                    var postSuccessful = await LogAsync(_userid, 100);
 
                     //display data logged popup
                     Console.WriteLine(postSuccessful ? "Data Successfully Logged" : "error during logging");
@@ -133,14 +133,16 @@ namespace WeightWizard.ViewModel
         {
             try
             {
-                var logDataDto = new DailyDataDto();
-                
-                logDataDto.UserId = userId;
-                logDataDto.MorningWeight = MorningWeight;
-                logDataDto.CalorieIntake = DailyCalorieIntake;
-                logDataDto.DesiredWeight = desiredWeight;
-                logDataDto.Date = SelectedDate;
-                logDataDto.Steps = Steps;
+                var logDataDto = new DailyDataDto
+                {
+                    UserId = userId,
+                    MorningWeight = MorningWeight,
+                    CalorieIntake = DailyCalorieIntake,
+                    DesiredWeight = desiredWeight,
+                    Date = SelectedDate,
+                    Steps = Steps
+                };
+
                 var jsonLoginData = JsonConvert.SerializeObject(logDataDto);
 
                 var postData = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
