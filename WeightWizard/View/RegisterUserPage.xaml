@@ -6,7 +6,7 @@
     <ScrollView>
         <ScrollView.Resources>
             <Style TargetType="Label">
-                <Setter Property="TextColor" Value="WhiteSmoke"/>
+                <Setter Property="TextColor" Value="Black"/>
             </Style>
         </ScrollView.Resources>
         <VerticalStackLayout
@@ -87,7 +87,7 @@
                 Background="White"
                 Placeholder="Weight"
                 TextColor="Grey"
-                Text="{Binding InitialWeight}"/>
+                Text="{Binding Weight}"/>
             
             <Label
                 Text="Desired Weight"
@@ -116,11 +116,6 @@
                 Text="Cancel"
                 HorizontalOptions="Center"
                 Command="{Binding CancelCommand}"/>
-            
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Label Text="New User?" TextColor="LightGrey" Padding="0,0,10,0"/>
-                <Label Text="Sign Up"/>
-            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
