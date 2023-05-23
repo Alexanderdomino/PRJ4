@@ -1,4 +1,5 @@
 using System.Text;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -31,11 +32,14 @@ public partial class RegisterUserPageViewModel : ObservableObject
             else
             {
                 Console.WriteLine("Something went wrong");
+                var alert = Toast.Make($"Something went wrong\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error connecting to server: {ex.Message}");
+            var alert = Toast.Make($"Error connecting to server: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+            await alert.Show();
         }
     }
     

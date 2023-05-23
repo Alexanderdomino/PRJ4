@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Text;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -54,10 +55,14 @@ public partial class ProfilePageViewModel: ObservableObject
             // Do something with goal weight...
             await UpdateUserAsync(_userid, user);
             Console.WriteLine("User updated successfully");
-        } catch (HttpRequestException ex) {
-            Console.WriteLine($"Error updating user: {ex.Message}");
+            
+            var alert = Toast.Make($"Preferences updated successfully", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+            await alert.Show();
+            
         } catch (Exception ex) {
             Console.WriteLine($"Unexpected error: {ex.Message}");
+            var alert = Toast.Make($"Failed to save changes\nPlease check your internet connection\nor try again later", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+            await alert.Show();
         }
         
         //Check if user has un-/checked notifications

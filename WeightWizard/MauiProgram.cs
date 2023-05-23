@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using Mopups.Hosting;
 using Plugin.LocalNotification;
 using WeightWizard.View;
@@ -14,6 +15,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .UseLocalNotification()
             .ConfigureMopups()
             .ConfigureSyncfusionCore()

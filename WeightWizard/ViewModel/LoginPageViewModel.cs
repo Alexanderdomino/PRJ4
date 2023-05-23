@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Text;
+using CommunityToolkit.Maui.Alerts;
 using WeightWizard.Model.DTOs;
 
 
@@ -20,7 +21,8 @@ namespace WeightWizard.ViewModel
         {
             if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
             {
-                Console.WriteLine("No username or password");
+                var alert = Toast.Make("Please enter Username and Password", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
             }
             else if (Username == "Admin" && Password == "Admin")
             {
@@ -38,12 +40,14 @@ namespace WeightWizard.ViewModel
                     }
                     else
                     {
-                        Console.WriteLine("Invalid username or password");
+                        var alert = Toast.Make("Invalid username or password", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                        await alert.Show();
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error connecting to server: {ex.Message}");
+                    var alert = Toast.Make($"Error connecting to server: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    await alert.Show();
                 }
             }
         }

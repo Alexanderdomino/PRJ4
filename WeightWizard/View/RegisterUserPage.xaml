@@ -51,6 +51,12 @@
                 TextColor="Grey"
                 Text="{Binding Password}"
                 IsPassword="True"/>
+            <Label
+                Text="* Password needs to have at least 1 uppercase and 1 lowercase letter and 12 characters"
+                SemanticProperties.HeadingLevel="Level3"
+                FontSize="12"
+                TextColor="Grey"
+                HorizontalOptions="Center" />
             
             <Label
                 Text="Gender"
