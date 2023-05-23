@@ -58,7 +58,6 @@ namespace WeightWizard.ViewModel
         {
             // Bind dates for the current month
             BindDates(SelectedMonth);
-            
         }
 
         // Method to bind dates to the calendar
@@ -176,12 +175,14 @@ namespace WeightWizard.ViewModel
 
                             });
                             loggedDays = 0;
+                            _reportDays.Clear();
                             
                         }
                         else
                         {
                             Dates.Add(new ReportModel());
                             loggedDays = 0;
+                            _reportDays.Clear();
                         }
                     }
                 }
