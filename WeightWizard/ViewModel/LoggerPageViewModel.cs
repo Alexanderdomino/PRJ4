@@ -57,7 +57,9 @@ namespace WeightWizard.ViewModel
             if (MorningWeight<=0 ||Steps<=0||DailyCalorieIntake<=0)
             {
                 Console.WriteLine("please enter all data");
-                DecodeJwtToken(token);
+                
+                var alert = Toast.Make($"please enter all data", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
             }
             else
             {
@@ -76,6 +78,8 @@ namespace WeightWizard.ViewModel
                         try {
                             await UpdateUserAsync(_userid, SelectedDate, dailyDataDto);
                             Console.WriteLine("Daily Data updated successfully");
+                            var alert = Toast.Make($"Successfully updated data", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                            await alert.Show();
                         } catch (HttpRequestException ex) {
                             Console.WriteLine($"Error updating Daily Data: {ex.Message}");
                         } catch (Exception ex) {
@@ -94,10 +98,21 @@ namespace WeightWizard.ViewModel
 
                     //display data logged popup
                     Console.WriteLine(postSuccessful ? "Data Successfully Logged" : "error during logging");
+                    if (!postSuccessful)
+                    {
+                        var failAlert = Toast.Make($"Failed to updated data\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                        await failAlert.Show();
+                        return;
+                    }
+                    var successAlert = Toast.Make($"Successfully logged data", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    await successAlert.Show();
+                    return;
                 }
-                catch (HttpRequestException ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"Error connecting to server: {ex.Message}");
+                    var successAlert = Toast.Make($"Something bad happened", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    await successAlert.Show();
                 }
             }
         }
