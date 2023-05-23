@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Maui.Alerts;
 using Microsoft.Maui.Storage;
 using WeightWizard.Model.DTOs;
 
@@ -152,17 +153,23 @@ namespace WeightWizard.ViewModel
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine("Data logged successfully.");
+                    var alert = Toast.Make($"Successfully logged data", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    await alert.Show();
                     return true;
                 }
                 else
                 {
                     Console.WriteLine("Failed to log data. StatusCode: " + response.StatusCode);
+                    var alert = Toast.Make($"Failed to log data\nPlease Check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    await alert.Show();
                     return false;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred while logging data: " + ex.Message);
+                var alert = Toast.Make($"Something went wrong\nPlease try again later", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
                 return false;
             }
         }
