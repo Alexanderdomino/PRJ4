@@ -12,7 +12,7 @@ namespace WeightWizard.ViewModel
     public partial class TrendPageViewModel : ObservableObject
     {
         [ObservableProperty]
-        public ObservableCollection<weightModel> data;
+        public ObservableCollection<weightModel> data = new();
 
         [ObservableProperty]
         public ObservableCollection<weightModel> webdata;
@@ -47,15 +47,12 @@ namespace WeightWizard.ViewModel
 
         public TrendPageViewModel()
         {
-            Data = new ObservableCollection<weightModel>();
 
             Webdata = new ObservableCollection<weightModel>();
 
             GetWebDataAsync();
 
-            state = ShowStates.Month;
-
-            ShowData();
+            
         }
 
         public void getData()
@@ -105,6 +102,10 @@ namespace WeightWizard.ViewModel
                 
                 }
             }
+
+            state = ShowStates.Month;
+
+            ShowData();
         }
 
 
