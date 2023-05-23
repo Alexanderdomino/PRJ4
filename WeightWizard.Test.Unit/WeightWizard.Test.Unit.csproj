@@ -22,4 +22,8 @@
       <ProjectReference Include="..\WeightWizard\WeightWizard.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ViewmodelTests\" />
+    </ItemGroup>
+
 </Project>
