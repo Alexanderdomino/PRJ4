@@ -18,7 +18,7 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] private int _dailyCalorieIntake;
         
         [ObservableProperty]
-        private DateTime _selectedDate = DateTime.Today;
+        private DateTime _selectedDate = DateTime.Now.Date.AddHours(2);
         
         private readonly HttpClient _httpClient = new();
         

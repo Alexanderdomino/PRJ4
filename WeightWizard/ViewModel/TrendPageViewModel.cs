@@ -13,8 +13,7 @@ namespace WeightWizard.ViewModel
     {
         [ObservableProperty]
         public ObservableCollection<weightModel> data;
-
-        [ObservableProperty]
+        
         public ObservableCollection<weightModel> webdata;
 
         //HttpClient for getting daily data
@@ -49,40 +48,13 @@ namespace WeightWizard.ViewModel
         {
             Data = new ObservableCollection<weightModel>();
 
-            Webdata = new ObservableCollection<weightModel>();
+            webdata = new ObservableCollection<weightModel>();
 
             GetWebDataAsync();
 
             state = ShowStates.Month;
 
             ShowData();
-        }
-
-        public void getData()
-        {
-            var today = DateTime.Now;
-            double weight = 70;
-            int steps = 10000;
-            int calories = 2500;
-            Random ran = new Random();
-
-            for (DateTime date = today.AddDays(-365); date <= DateTime.Now.Date; date = date.AddDays(1))
-            {
-
-                Webdata.Add(new weightModel(date.Date, weight, steps, calories));
-                if (ran.NextDouble() < 0.5)
-                {
-                    weight += ran.NextDouble();
-                    steps -= 600;
-                    calories += 10;
-                }
-                else
-                {
-                    weight -= ran.NextDouble();
-                    steps += 600;
-                    calories -= 10;
-                }
-            }
         }
 
         private async void GetWebDataAsync()
@@ -96,7 +68,7 @@ namespace WeightWizard.ViewModel
                 var dailyDataObj = await GetDailyDataAsync(_userid, date);
                 if (dailyDataObj != null)
                 {
-                    Webdata.Add(new weightModel(
+                    webdata.Add(new weightModel(
                         date.Date,
                         (double)dailyDataObj.MorningWeight,
                         dailyDataObj.Steps,
@@ -162,11 +134,11 @@ namespace WeightWizard.ViewModel
             {
                 case ShowStates.All:
                     Data.Clear();
-                    Data = new ObservableCollection<weightModel>(Webdata);
+                    Data = new ObservableCollection<weightModel>(webdata);
                     break;
                 case ShowStates.ThreeMonths:
                     Data.Clear();
-                    foreach (var item in Webdata)
+                    foreach (var item in webdata)
                         if (item.Date >= DateTime.Now.AddDays(-90))
                         {
                             Data.Add(item);
@@ -174,7 +146,7 @@ namespace WeightWizard.ViewModel
                     break;
                 case ShowStates.Month:
                     Data.Clear();
-                    foreach (var item in Webdata)
+                    foreach (var item in webdata)
                         if (item.Date >= DateTime.Now.AddDays(-30))
                         {
                             Data.Add(item);
