@@ -14,7 +14,7 @@ namespace WeightWizard.ViewModel
         [ObservableProperty]
         public ObservableCollection<weightModel> data = new();
 
-        [ObservableProperty]
+        //[ObservableProperty]
         public ObservableCollection<weightModel> webdata;
 
         //HttpClient for getting daily data
