@@ -12,8 +12,9 @@ namespace WeightWizard.ViewModel
     public partial class TrendPageViewModel : ObservableObject
     {
         [ObservableProperty]
-        public ObservableCollection<weightModel> data;
-        
+        public ObservableCollection<weightModel> data = new();
+
+        //[ObservableProperty]
         public ObservableCollection<weightModel> webdata;
 
         //HttpClient for getting daily data
@@ -46,15 +47,12 @@ namespace WeightWizard.ViewModel
 
         public TrendPageViewModel()
         {
-            Data = new ObservableCollection<weightModel>();
 
             webdata = new ObservableCollection<weightModel>();
 
             GetWebDataAsync();
 
-            state = ShowStates.Month;
-
-            ShowData();
+            
         }
 
         private async void GetWebDataAsync()
@@ -77,6 +75,10 @@ namespace WeightWizard.ViewModel
                 
                 }
             }
+
+            state = ShowStates.Month;
+
+            ShowData();
         }
 
 
