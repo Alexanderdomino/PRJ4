@@ -78,7 +78,7 @@ namespace WeightWizard.ViewModel
             }
             
             // Get the number of days in the month
-            var daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
+            var daysCount = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month)+1;
 
             // Get the first day of the month
             var firstDayOfMonth = new DateTime(selectedDate.Year, selectedDate.Month, 1);

@@ -36,7 +36,7 @@
             
             <Entry
                 Background="White"
-                Placeholder="E-mail"
+                Placeholder="Username"
                 TextColor="Grey"
                 Text="{Binding Username}"
                 Keyboard="Email"/>
