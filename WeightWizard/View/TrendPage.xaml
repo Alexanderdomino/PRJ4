@@ -40,7 +40,7 @@
                 Spacing="10">
 
                 <Button
-                Text="All"
+                Text="1 year"
                 SemanticProperties.Hint="Saves logged data from current day"
                     Command="{Binding SeeAllCommand}"/>
 
