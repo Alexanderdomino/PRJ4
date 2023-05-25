@@ -110,8 +110,8 @@ public partial class ProfilePageViewModel: ObservableObject
 
             if (!response.IsSuccessStatusCode)
             {
-                var successAlert = Toast.Make($"Couldn't get your current Goal\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
-                await successAlert.Show();
+                var alert = Toast.Make($"Couldn't get your current Goal\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
                 return;
             }
 
@@ -127,8 +127,8 @@ public partial class ProfilePageViewModel: ObservableObject
         }
         catch (Exception ex)
         {
-            var successAlert = Toast.Make($"Something bad happened\nPlease Check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
-            await successAlert.Show();
+            var alert = Toast.Make($"Something bad happened\nPlease Check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+            await alert.Show();
         }
     }
 
