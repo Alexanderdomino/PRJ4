@@ -23,6 +23,11 @@ namespace WeightWizard.ViewModel
         private readonly HttpClient _httpClient = new();
         
         private int _userid;
+
+        public LoggerPageViewModel()
+        {
+            GetExistingDailyDataAsync();
+        }
         
         public void DecodeJwtToken(string token)
         {
