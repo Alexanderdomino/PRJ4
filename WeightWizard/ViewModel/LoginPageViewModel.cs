@@ -54,6 +54,9 @@ namespace WeightWizard.ViewModel
 
         private async Task<bool> LoginAsync(string email, string password)
         {
+            var alert = Toast.Make($"Please wait...", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+            await alert.Show();
+            
             var loginData = new LoginDto
             {
                 Username = email,
