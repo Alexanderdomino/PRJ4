@@ -22,6 +22,11 @@ public partial class ProfilePageViewModel: ObservableObject
     private readonly HttpClient _httpClient = new();
     
     private int _userid;
+
+    public ProfilePageViewModel()
+    {
+        GetUserDataAsync();
+    }
         
     public void DecodeJwtToken(string token)
     {
@@ -91,6 +96,26 @@ public partial class ProfilePageViewModel: ObservableObject
     
         var response = await _httpClient.PatchAsync(uri, content);
         response.EnsureSuccessStatusCode();
+    }
+    
+    private async void GetUserDataAsync()
+    {
+        var token = await SecureStorage.GetAsync("jwt_token");
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+        DecodeJwtToken(token);
+        
+        var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/Users/" + _userid);
+        
+        if (!response.IsSuccessStatusCode) return;
+        var content = response.Content;
+                
+        // Read the content as a string
+        var result = await content.ReadAsStringAsync();
+            
+        // Deserialize the JSON content into a strongly-typed object
+        var userDto = JsonConvert.DeserializeObject<UserDto>(result);
+
+        DesiredWeight = userDto.DesiredWeight;
     }
 
     [RelayCommand]
