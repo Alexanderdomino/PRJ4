@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Text;
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Core.Views;
 using WeightWizard.Model.DTOs;
 
 
@@ -16,6 +18,8 @@ namespace WeightWizard.ViewModel
 
         private readonly HttpClient _httpClient = new();
 
+        private readonly IToast _loadingAlert = Toast.Make("Please wait...", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+        
         [RelayCommand]
         private async void SignIn()
         {
@@ -36,6 +40,7 @@ namespace WeightWizard.ViewModel
 
                     if (loginSuccessful)
                     {
+                        await _loadingAlert.Dismiss();
                         await Shell.Current.GoToAsync("///main");
                     }
                     else
@@ -46,7 +51,7 @@ namespace WeightWizard.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    var alert = Toast.Make($"Error connecting to server: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    var alert = Toast.Make($"Something bad happened\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
                     await alert.Show();
                 }
             }
@@ -54,8 +59,7 @@ namespace WeightWizard.ViewModel
 
         private async Task<bool> LoginAsync(string email, string password)
         {
-            var alert = Toast.Make($"Please wait...", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
-            await alert.Show();
+            await _loadingAlert.Show();
             
             var loginData = new LoginDto
             {
