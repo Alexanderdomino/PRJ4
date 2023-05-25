@@ -24,6 +24,8 @@ namespace WeightWizard.ViewModel
         
         private int _userid;
 
+        private decimal _desiredWeight;
+
         public LoggerPageViewModel()
         {
             GetExistingDailyDataAsync();
@@ -41,6 +43,11 @@ namespace WeightWizard.ViewModel
             var nameidentifier = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
 
             if (nameidentifier != null) _userid = int.Parse(nameidentifier);
+            
+            var desiredWeight = claims.FirstOrDefault(c => c.Type == "DesiredWeight")?.Value;
+
+            if (desiredWeight != null) _desiredWeight = decimal.Parse(desiredWeight);
+            
         }
 
 
@@ -97,7 +104,7 @@ namespace WeightWizard.ViewModel
                 }
                 try
                 {
-                    var postSuccessful = await LogAsync(_userid, 100);
+                    var postSuccessful = await LogAsync();
 
                     //display data logged popup
                     Console.WriteLine(postSuccessful ? "Data Successfully Logged" : "error during logging");
@@ -148,16 +155,16 @@ namespace WeightWizard.ViewModel
             }
         }
 
-        private async Task<bool> LogAsync(int userId, decimal desiredWeight)
+        private async Task<bool> LogAsync()
         {
             try
             {
                 var logDataDto = new DailyDataDto
                 {
-                    UserId = userId,
+                    UserId = _userid,
                     MorningWeight = MorningWeight,
                     CalorieIntake = DailyCalorieIntake,
-                    DesiredWeight = desiredWeight,
+                    DesiredWeight = _desiredWeight,
                     Date = SelectedDate,
                     Steps = Steps
                 };
