@@ -98,25 +98,40 @@ public partial class ProfilePageViewModel: ObservableObject
         response.EnsureSuccessStatusCode();
     }
     
-    private async void GetUserDataAsync()
+    private async Task GetUserDataAsync()
     {
-        var token = await SecureStorage.GetAsync("jwt_token");
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-        DecodeJwtToken(token);
-        
-        var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/Users/" + _userid);
-        
-        if (!response.IsSuccessStatusCode) return;
-        var content = response.Content;
-                
-        // Read the content as a string
-        var result = await content.ReadAsStringAsync();
-            
-        // Deserialize the JSON content into a strongly-typed object
-        var userDto = JsonConvert.DeserializeObject<UserDto>(result);
+        try
+        {
+            var token = await SecureStorage.GetAsync("jwt_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            DecodeJwtToken(token);
 
-        DesiredWeight = userDto.DesiredWeight;
+            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/Users/" + _userid);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var successAlert = Toast.Make($"Couldn't get your current Goal\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await successAlert.Show();
+                return;
+            }
+
+            var content = response.Content;
+
+            // Read the content as a string
+            var result = await content.ReadAsStringAsync();
+
+            // Deserialize the JSON content into a strongly-typed object
+            var userDto = JsonConvert.DeserializeObject<UserDto>(result);
+
+            DesiredWeight = userDto.DesiredWeight;
+        }
+        catch (Exception ex)
+        {
+            var successAlert = Toast.Make($"Something bad happened\nPlease Check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+            await successAlert.Show();
+        }
     }
+
 
     [RelayCommand]
     public static async void SignOut()
