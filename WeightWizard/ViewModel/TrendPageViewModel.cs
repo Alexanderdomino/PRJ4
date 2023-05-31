@@ -81,31 +81,6 @@ namespace WeightWizard.ViewModel
             ShowData();
         }
 
-
-        private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
-        {
-            var formattedDate = date.ToString("yyyy-MM-dd");
-            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
-                                                      formattedDate + "T00%3A00%3A00");
-            if (response.IsSuccessStatusCode)
-            {
-                var content = response.Content;
-
-                // Read the content as a string
-                var result = await content.ReadAsStringAsync();
-
-                // Deserialize the JSON content into a strongly-typed object
-                var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
-
-                return dailyDataDto;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
         [RelayCommand]
         public void SeeThreeMonths()
         {
@@ -158,5 +133,31 @@ namespace WeightWizard.ViewModel
                     break;
             }
         }
+
+        #region BackendCalls
+        //GET dailyData
+        private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
+        {
+            var formattedDate = date.ToString("yyyy-MM-dd");
+            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
+                                                      formattedDate + "T00%3A00%3A00");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                // Read the content as a string
+                var result = await content.ReadAsStringAsync();
+
+                // Deserialize the JSON content into a strongly-typed object
+                var dailyDataDto = JsonConvert.DeserializeObject<DailyDataDto>(result);
+
+                return dailyDataDto;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        #endregion
     }
 }
