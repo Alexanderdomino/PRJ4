@@ -178,7 +178,7 @@ namespace WeightWizard.ViewModel
 
                 var postData = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/DailyData", postData);
+                var response = await _httpClient.PostAsync("https://weightwizard.azurewebsites.net/api/DailyData", postData);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -210,7 +210,7 @@ namespace WeightWizard.ViewModel
             var formattedDate = date.ToString("yyyy-MM-dd");
             try
             {
-                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" +
+                var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" +
                                                           userId + "/" + formattedDate + "T00%3A00%3A00");
                 return response.IsSuccessStatusCode;
             }
@@ -230,7 +230,7 @@ namespace WeightWizard.ViewModel
         public async Task UpdateUserAsync(int userId, DateTime date, DailyDataDto dailyData) {
             var formattedDate = date.ToString("yyyy-MM-dd");
             
-            var uri = new Uri($"https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+            var uri = new Uri($"https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
                               formattedDate + "T00%3A00%3A00");
     
             var json = JsonConvert.SerializeObject(dailyData);
@@ -244,7 +244,7 @@ namespace WeightWizard.ViewModel
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
-            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
                                                       formattedDate + "T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
@@ -273,7 +273,7 @@ namespace WeightWizard.ViewModel
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
                 DecodeJwtToken(token);
 
-                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/Users/" + _userid);
+                var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/Users/" + _userid);
 
                 if (!response.IsSuccessStatusCode)
                 {
