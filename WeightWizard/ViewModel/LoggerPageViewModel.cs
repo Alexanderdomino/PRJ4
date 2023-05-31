@@ -11,25 +11,30 @@ using WeightWizard.Model.DTOs;
 
 namespace WeightWizard.ViewModel
 {
+    // This class represents the ViewModel for the LoggerPage view
     public partial class LoggerPageViewModel : ObservableObject
     {
+        // Observable properties represent data to be displayed in the view
         [ObservableProperty] private decimal _morningWeight;
         [ObservableProperty] private int _steps;
         [ObservableProperty] private int _dailyCalorieIntake;
         [ObservableProperty] private DateTime _selectedDate = DateTime.Now.Date.AddHours(2);
         
+        // HttpClient used to make HTTP requests
         private readonly HttpClient _httpClient = new();
         
+        // User details
         private int _userid;
+        private decimal _desiredWeight = 0;
 
-        private decimal _desiredWeight;
-
+        // Constructor for LoggerPageViewModel
         public LoggerPageViewModel()
         {
             GetExistingDailyDataAsync();
             GetUserDataAsync();
         }
         
+        // This method is used to decode the JWT token and extract the user's ID
         public void DecodeJwtToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -45,11 +50,13 @@ namespace WeightWizard.ViewModel
         }
 
 
+        // Event handler for when the selected date changes
         partial void OnSelectedDateChanged(DateTime value)
         {
             GetExistingDailyDataAsync();
         }
 
+        // RelayCommand that triggers the data logging process
         [RelayCommand]
         public async void LogData()
         {
@@ -121,6 +128,7 @@ namespace WeightWizard.ViewModel
             }
         }
         
+        // Fetch existing daily data for the current user and selected date
         public async Task GetExistingDailyDataAsync()
         {
             var token = await SecureStorage.GetAsync("jwt_token");
@@ -149,6 +157,9 @@ namespace WeightWizard.ViewModel
             }
         }
 
+        #region BackendCalls
+        
+        //POST dailyData
         private async Task<bool> LogAsync()
         {
             try
@@ -193,7 +204,7 @@ namespace WeightWizard.ViewModel
             }
         }
 
-        
+        //GET check dailyData
         private async Task<bool> CheckIfDayIsEmptyAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
@@ -215,6 +226,7 @@ namespace WeightWizard.ViewModel
             }
         }
         
+        //PATCH dailyData
         public async Task UpdateUserAsync(int userId, DateTime date, DailyDataDto dailyData) {
             var formattedDate = date.ToString("yyyy-MM-dd");
             
@@ -228,6 +240,7 @@ namespace WeightWizard.ViewModel
             response.EnsureSuccessStatusCode();
         }
         
+        //GET dailyData
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
@@ -251,6 +264,7 @@ namespace WeightWizard.ViewModel
             }
         }
         
+        //GET user
         private async Task GetUserDataAsync()
         {
             try
@@ -284,5 +298,6 @@ namespace WeightWizard.ViewModel
                 await alert.Show();
             }
         }
+        #endregion
     }
 }
