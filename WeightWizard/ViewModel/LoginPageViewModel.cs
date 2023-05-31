@@ -66,7 +66,16 @@ namespace WeightWizard.ViewModel
             }
         }
 
-        // Method for async login operation
+        // Command for sign up operation
+        [RelayCommand]
+        private async void SignUp()
+        {
+            // Navigate to register page
+            await Shell.Current.GoToAsync("///register");
+        }
+
+        #region BackendCalls
+        //POST on login
         private async Task<bool> LoginAsync(string email, string password)
         {
             // Show the loading alert
@@ -113,13 +122,6 @@ namespace WeightWizard.ViewModel
                 return false;
             }
         }
-
-        // Command for sign up operation
-        [RelayCommand]
-        private async void SignUp()
-        {
-            // Navigate to register page
-            await Shell.Current.GoToAsync("///register");
-        }
+        #endregion
     }
 }
