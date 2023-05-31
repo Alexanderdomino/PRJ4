@@ -238,7 +238,7 @@ namespace WeightWizard.ViewModel
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
-            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
                                                       formattedDate + "T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
@@ -263,7 +263,7 @@ namespace WeightWizard.ViewModel
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData");
+                var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData");
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
