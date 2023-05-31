@@ -31,13 +31,14 @@
                 Text="Username"
                 SemanticProperties.HeadingLevel="Level3"
                 FontSize="14"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"/>
             
             <Entry
                 Background="White"
                 Placeholder="Username"
                 TextColor="Grey"
-                Text="{Binding Username}"/>
+                Text="{Binding Username}"
+                MaxLength="50"/>
             
             <Label
                 Text="Password"
@@ -64,11 +65,16 @@
                 FontSize="14"
                 HorizontalOptions="Center" />
             
-            <Entry
-                Background="White"
-                Placeholder="Gender"
-                TextColor="Grey"
-                Text="{Binding Gender}"/>
+            <Picker
+                Title="Select Gender"
+                SelectedItem="{Binding Gender}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>M</x:String>
+                        <x:String>F</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
             
             <Label
                 Text="Height"
@@ -80,7 +86,9 @@
                 Background="White"
                 Placeholder="Height"
                 TextColor="Grey"
-                Text="{Binding Height}"/>
+                Text="{Binding Height}"
+                Keyboard="Numeric"
+                MaxLength="3"/>
             
             <Label
                 Text="Weight"
@@ -92,7 +100,9 @@
                 Background="White"
                 Placeholder="Weight"
                 TextColor="Grey"
-                Text="{Binding Weight}"/>
+                Text="{Binding Weight}"
+                Keyboard="Numeric"
+                MaxLength="3"/>
             
             <Label
                 Text="Desired Weight"
@@ -104,7 +114,9 @@
                 Background="White"
                 Placeholder="Desired Weight"
                 TextColor="Grey"
-                Text="{Binding DesiredWeight}"/>
+                Text="{Binding DesiredWeight}"
+                Keyboard="Numeric"
+                MaxLength="3"/>
             
             <Button
                 x:Name="RegisterBtn"
