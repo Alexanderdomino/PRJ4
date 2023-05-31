@@ -1,6 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
 using WeightWizard.Model;
+using WeightWizard.Model.DTOs;
 using WeightWizard.Model.Interfaces;
 
 namespace WeightWizard.ViewModel.PopupViewmodel;
@@ -12,6 +16,10 @@ public partial class ReportPopupViewModel : ObservableObject
     [ObservableProperty] private int _calories;
     [ObservableProperty] private int _steps;
     private decimal _desiredWeight;
+    private int _userid;
+    
+    // HttpClient used to make HTTP requests
+    private readonly HttpClient _httpClient = new();
 
     public ReportPopupViewModel(ICalenderItems selectedItem)
     {
@@ -22,6 +30,7 @@ public partial class ReportPopupViewModel : ObservableObject
     {
         var token = await SecureStorage.GetAsync("jwt_token");
         DecodeJwtToken(token);
+        await GetUserDataAsync();
         
         var temp = selectedItem as ReportModel;
         if (temp != null)
@@ -67,8 +76,42 @@ public partial class ReportPopupViewModel : ObservableObject
         var claims = jwtToken.Claims;
 
         //Get the userid claim
-        var tempDesiredWeight = claims.FirstOrDefault(c => c.Type == "DesiredWeight")?.Value;
+        var nameidentifier = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
 
-        if (tempDesiredWeight != null) _desiredWeight = decimal.Parse(tempDesiredWeight);
+        if (nameidentifier != null) _userid = int.Parse(nameidentifier);
+    }
+    
+    private async Task GetUserDataAsync()
+    {
+        try
+        {
+            var token = await SecureStorage.GetAsync("jwt_token");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            DecodeJwtToken(token);
+
+            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/Users/" + _userid);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var alert = Toast.Make($"Couldn't get your current Goal\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
+                return;
+            }
+
+            var content = response.Content;
+
+            // Read the content as a string
+            var result = await content.ReadAsStringAsync();
+
+            // Deserialize the JSON content into a strongly-typed object
+            var userDto = JsonConvert.DeserializeObject<UserDto>(result);
+
+            _desiredWeight = userDto.DesiredWeight;
+        }
+        catch (Exception ex)
+        {
+            var alert = Toast.Make($"Something bad happened\nPlease Check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+            await alert.Show();
+        }
     }
 }
