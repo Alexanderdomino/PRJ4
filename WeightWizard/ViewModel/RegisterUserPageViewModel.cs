@@ -48,8 +48,9 @@ public partial class RegisterUserPageViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync("///login");
     }
-    
-    
+
+    #region BackendCalls
+    //POST on register
     private async Task<bool> RegisterUserAsync()
     {
         var userData = new UserDto
@@ -93,4 +94,5 @@ public partial class RegisterUserPageViewModel : ObservableObject
             return false;
         }
     }
+    #endregion
 }
