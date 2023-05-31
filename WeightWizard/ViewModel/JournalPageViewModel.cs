@@ -210,6 +210,7 @@ namespace WeightWizard.ViewModel
             }
         }
 
+        //Swiping on month left
         [RelayCommand]
         public void MonthSwipeLeft()
         {
@@ -220,6 +221,7 @@ namespace WeightWizard.ViewModel
             SelectedMonth = SelectedMonth.AddMonths(1);
         }
         
+        //Swiping on month right
         [RelayCommand]
         public void MonthSwipeRight()
         {
@@ -229,7 +231,10 @@ namespace WeightWizard.ViewModel
             }
             SelectedMonth = SelectedMonth.AddMonths(-1);
         }
-    
+
+        #region BackendCalls
+
+        //GET dailyData
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
@@ -253,6 +258,7 @@ namespace WeightWizard.ViewModel
             }
         }
         
+        //GET check connection
         private async Task<bool> CheckServerConnectionAsync()
         {
             try
@@ -266,6 +272,6 @@ namespace WeightWizard.ViewModel
                 return false;
             }
         }
+        #endregion
     }
-    
 }
