@@ -11,24 +11,30 @@ using WeightWizard.Model.DTOs;
 
 namespace WeightWizard.ViewModel
 {
+    // This class represents the ViewModel for the LoggerPage view
     public partial class LoggerPageViewModel : ObservableObject
     {
+        // Observable properties represent data to be displayed in the view
         [ObservableProperty] private decimal _morningWeight;
         [ObservableProperty] private int _steps;
         [ObservableProperty] private int _dailyCalorieIntake;
+        [ObservableProperty] private DateTime _selectedDate = DateTime.Now.Date.AddHours(2);
         
-        [ObservableProperty]
-        private DateTime _selectedDate = DateTime.Now.Date.AddHours(2);
-        
+        // HttpClient used to make HTTP requests
         private readonly HttpClient _httpClient = new();
         
+        // User details
         private int _userid;
+        private decimal _desiredWeight = 0;
 
+        // Constructor for LoggerPageViewModel
         public LoggerPageViewModel()
         {
             GetExistingDailyDataAsync();
+            GetUserDataAsync();
         }
         
+        // This method is used to decode the JWT token and extract the user's ID
         public void DecodeJwtToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -44,11 +50,13 @@ namespace WeightWizard.ViewModel
         }
 
 
+        // Event handler for when the selected date changes
         partial void OnSelectedDateChanged(DateTime value)
         {
             GetExistingDailyDataAsync();
         }
 
+        // RelayCommand that triggers the data logging process
         [RelayCommand]
         public async void LogData()
         {
@@ -97,7 +105,7 @@ namespace WeightWizard.ViewModel
                 }
                 try
                 {
-                    var postSuccessful = await LogAsync(_userid, 100);
+                    var postSuccessful = await LogAsync();
 
                     //display data logged popup
                     Console.WriteLine(postSuccessful ? "Data Successfully Logged" : "error during logging");
@@ -120,6 +128,7 @@ namespace WeightWizard.ViewModel
             }
         }
         
+        // Fetch existing daily data for the current user and selected date
         public async Task GetExistingDailyDataAsync()
         {
             var token = await SecureStorage.GetAsync("jwt_token");
@@ -148,16 +157,19 @@ namespace WeightWizard.ViewModel
             }
         }
 
-        private async Task<bool> LogAsync(int userId, decimal desiredWeight)
+        #region BackendCalls
+        
+        //POST dailyData
+        private async Task<bool> LogAsync()
         {
             try
             {
                 var logDataDto = new DailyDataDto
                 {
-                    UserId = userId,
+                    UserId = _userid,
                     MorningWeight = MorningWeight,
                     CalorieIntake = DailyCalorieIntake,
-                    DesiredWeight = desiredWeight,
+                    DesiredWeight = _desiredWeight,
                     Date = SelectedDate,
                     Steps = Steps
                 };
@@ -166,7 +178,7 @@ namespace WeightWizard.ViewModel
 
                 var postData = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/DailyData", postData);
+                var response = await _httpClient.PostAsync("https://weightwizard.azurewebsites.net/api/DailyData", postData);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -192,13 +204,13 @@ namespace WeightWizard.ViewModel
             }
         }
 
-        
+        //GET check dailyData
         private async Task<bool> CheckIfDayIsEmptyAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
             try
             {
-                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" +
+                var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" +
                                                           userId + "/" + formattedDate + "T00%3A00%3A00");
                 return response.IsSuccessStatusCode;
             }
@@ -214,10 +226,11 @@ namespace WeightWizard.ViewModel
             }
         }
         
+        //PATCH dailyData
         public async Task UpdateUserAsync(int userId, DateTime date, DailyDataDto dailyData) {
             var formattedDate = date.ToString("yyyy-MM-dd");
             
-            var uri = new Uri($"https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+            var uri = new Uri($"https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
                               formattedDate + "T00%3A00%3A00");
     
             var json = JsonConvert.SerializeObject(dailyData);
@@ -227,10 +240,11 @@ namespace WeightWizard.ViewModel
             response.EnsureSuccessStatusCode();
         }
         
+        //GET dailyData
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
-            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
                                                       formattedDate + "T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
@@ -249,5 +263,41 @@ namespace WeightWizard.ViewModel
                 return null;
             }
         }
+        
+        //GET user
+        private async Task GetUserDataAsync()
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("jwt_token");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+                DecodeJwtToken(token);
+
+                var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/Users/" + _userid);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var alert = Toast.Make($"Couldn't get your current Goal\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    await alert.Show();
+                    return;
+                }
+
+                var content = response.Content;
+
+                // Read the content as a string
+                var result = await content.ReadAsStringAsync();
+
+                // Deserialize the JSON content into a strongly-typed object
+                var userDto = JsonConvert.DeserializeObject<UserDto>(result);
+
+                _desiredWeight = userDto.DesiredWeight;
+            }
+            catch (Exception ex)
+            {
+                var alert = Toast.Make($"Something bad happened\nPlease Check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
+            }
+        }
+        #endregion
     }
 }

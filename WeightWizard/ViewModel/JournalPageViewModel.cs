@@ -210,6 +210,7 @@ namespace WeightWizard.ViewModel
             }
         }
 
+        //Swiping on month left
         [RelayCommand]
         public void MonthSwipeLeft()
         {
@@ -220,6 +221,7 @@ namespace WeightWizard.ViewModel
             SelectedMonth = SelectedMonth.AddMonths(1);
         }
         
+        //Swiping on month right
         [RelayCommand]
         public void MonthSwipeRight()
         {
@@ -229,11 +231,14 @@ namespace WeightWizard.ViewModel
             }
             SelectedMonth = SelectedMonth.AddMonths(-1);
         }
-    
+
+        #region BackendCalls
+
+        //GET dailyData
         private async Task<DailyDataDto> GetDailyDataAsync(int userId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
-            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData/" + userId + "/" +
+            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData/" + userId + "/" +
                                                       formattedDate + "T00%3A00%3A00");
             if (response.IsSuccessStatusCode)
             {
@@ -253,11 +258,12 @@ namespace WeightWizard.ViewModel
             }
         }
         
+        //GET check connection
         private async Task<bool> CheckServerConnectionAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/DailyData");
+                var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/DailyData");
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -266,6 +272,6 @@ namespace WeightWizard.ViewModel
                 return false;
             }
         }
+        #endregion
     }
-    
 }

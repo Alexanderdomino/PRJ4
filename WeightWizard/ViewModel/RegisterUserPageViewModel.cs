@@ -67,7 +67,7 @@ public partial class RegisterUserPageViewModel : ObservableObject
 
         try
         {
-            var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/Users/register", requestContent);
+            var response = await _httpClient.PostAsync("https://weightwizard.azurewebsites.net/api/Users/register", requestContent);
         
             if (!response.IsSuccessStatusCode)
             {

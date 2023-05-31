@@ -89,7 +89,7 @@ public partial class ProfilePageViewModel: ObservableObject
     }
 
     private async Task UpdateUserAsync(int userId, UserDto updatedUser) {
-        var uri = new Uri($"https://prj4backend.azurewebsites.net/api/Users/{userId}");
+        var uri = new Uri($"https://weightwizard.azurewebsites.net/api/Users/{userId}");
     
         var json = JsonConvert.SerializeObject(updatedUser);
         var content = new StringContent(json, Encoding.UTF8, "application/json-patch+json");
@@ -106,7 +106,7 @@ public partial class ProfilePageViewModel: ObservableObject
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             DecodeJwtToken(token);
 
-            var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/Users/" + _userid);
+            var response = await _httpClient.GetAsync("https://weightwizard.azurewebsites.net/api/Users/" + _userid);
 
             if (!response.IsSuccessStatusCode)
             {
