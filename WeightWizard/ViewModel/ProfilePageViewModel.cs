@@ -88,6 +88,15 @@ public partial class ProfilePageViewModel: ObservableObject
         await LocalNotificationCenter.Current.Show(request);
     }
 
+    [RelayCommand]
+    public static async void SignOut()
+    {
+        SecureStorage.Default.RemoveAll();
+        await Shell.Current.GoToAsync("///login");
+    }
+
+    #region BackendCalls
+    //PATCH on user
     private async Task UpdateUserAsync(int userId, UserDto updatedUser) {
         var uri = new Uri($"https://weightwizard.azurewebsites.net/api/Users/{userId}");
     
@@ -98,6 +107,7 @@ public partial class ProfilePageViewModel: ObservableObject
         response.EnsureSuccessStatusCode();
     }
     
+    //GET on user
     private async Task GetUserDataAsync()
     {
         try
@@ -131,12 +141,5 @@ public partial class ProfilePageViewModel: ObservableObject
             await alert.Show();
         }
     }
-
-
-    [RelayCommand]
-    public static async void SignOut()
-    {
-        SecureStorage.Default.RemoveAll();
-        await Shell.Current.GoToAsync("///login");
-    }
+    #endregion
 }
