@@ -86,7 +86,7 @@ namespace WeightWizard.ViewModel
             try
             {
                 // Make the HTTP POST request
-                var response = await _httpClient.PostAsync("https://prj4backend.azurewebsites.net/api/Users/login", requestContent);
+                var response = await _httpClient.PostAsync("https://weightwizard.azurewebsites.net/api/Users/login", requestContent);
         
                 // Check for success status code in the response
                 if (!response.IsSuccessStatusCode)
