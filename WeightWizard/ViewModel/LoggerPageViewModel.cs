@@ -16,9 +16,7 @@ namespace WeightWizard.ViewModel
         [ObservableProperty] private decimal _morningWeight;
         [ObservableProperty] private int _steps;
         [ObservableProperty] private int _dailyCalorieIntake;
-        
-        [ObservableProperty]
-        private DateTime _selectedDate = DateTime.Now.Date.AddHours(2);
+        [ObservableProperty] private DateTime _selectedDate = DateTime.Now.Date.AddHours(2);
         
         private readonly HttpClient _httpClient = new();
         
@@ -29,6 +27,7 @@ namespace WeightWizard.ViewModel
         public LoggerPageViewModel()
         {
             GetExistingDailyDataAsync();
+            GetUserDataAsync();
         }
         
         public void DecodeJwtToken(string token)
@@ -43,11 +42,6 @@ namespace WeightWizard.ViewModel
             var nameidentifier = claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
 
             if (nameidentifier != null) _userid = int.Parse(nameidentifier);
-            
-            var desiredWeight = claims.FirstOrDefault(c => c.Type == "DesiredWeight")?.Value;
-
-            if (desiredWeight != null) _desiredWeight = decimal.Parse(desiredWeight);
-            
         }
 
 
@@ -254,6 +248,40 @@ namespace WeightWizard.ViewModel
             else
             {
                 return null;
+            }
+        }
+        
+        private async Task GetUserDataAsync()
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("jwt_token");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+                DecodeJwtToken(token);
+
+                var response = await _httpClient.GetAsync("https://prj4backend.azurewebsites.net/api/Users/" + _userid);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var alert = Toast.Make($"Couldn't get your current Goal\nPlease check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                    await alert.Show();
+                    return;
+                }
+
+                var content = response.Content;
+
+                // Read the content as a string
+                var result = await content.ReadAsStringAsync();
+
+                // Deserialize the JSON content into a strongly-typed object
+                var userDto = JsonConvert.DeserializeObject<UserDto>(result);
+
+                _desiredWeight = userDto.DesiredWeight;
+            }
+            catch (Exception ex)
+            {
+                var alert = Toast.Make($"Something bad happened\nPlease Check your internet connection", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
+                await alert.Show();
             }
         }
     }
