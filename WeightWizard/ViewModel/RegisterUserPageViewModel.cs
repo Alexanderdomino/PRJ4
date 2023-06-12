@@ -1,5 +1,6 @@
 using System.Text;
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -17,16 +18,22 @@ public partial class RegisterUserPageViewModel : ObservableObject
     [ObservableProperty] private decimal _desiredWeight;
     
     private readonly HttpClient _httpClient = new();
+    
+    // Toast for loading alert
+    private readonly IToast _loadingAlert = Toast.Make("Please wait...", CommunityToolkit.Maui.Core.ToastDuration.Long, 14);
 
     [RelayCommand]
     private async void SignUp()
     {
         try
         {
+            // Show the loading alert
+            await _loadingAlert.Show();
             var registerSuccessful = await RegisterUserAsync();
 
             if (registerSuccessful)
             {
+                await _loadingAlert.Dismiss();
                 await Shell.Current.GoToAsync("///main");
             }
             else
